@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call(GunCategoriesTableSeeder::class);
-        $this->call(GunProductsTableSeeder::class);
         $this->call(BrandsTableSeeder::class);
+        $this->call(GunProductsTableSeeder::class);
+        $this->call(AccessoryCategoriesTableSeeder::class);
+        $this->call(AccessoryProductsTableSeeder::class);
     }
 }

@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class AccessoryCategory extends Model
 {
     use HasFactory;
 
-    public function gunProducts()
-    {
-        return $this->hasMany(GunProduct::class);
-    }
+    protected $table = 'accessory_categories';
 
-    public function accessoryProducts()
+    public function accessoryProduct()
     {
         return $this->hasMany(AccessoryProduct::class);
     }

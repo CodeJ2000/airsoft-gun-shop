@@ -538,6 +538,328 @@
     </div>
     <!-- Products End -->
 
+    <!-- Products Start -->
+    <div class="container-fluid about py-5">
+      <div class="container">
+        <div
+          class="section-title position-relative text-center mx-auto mb-5 pb-3"
+          style="max-width: 600px"
+        >
+          <h1 class="display-4 text-uppercase">Airsoft Accessories</h1>
+        </div>
+        <div class="tab-class text-center">
+          <ul
+            class="nav nav-pills d-inline-flex justify-content-center bg-dark text-uppercase border-inner p-4 mb-5"
+          >
+            <li class="nav-item">
+              <a
+                class="nav-link text-white active"
+                data-bs-toggle="pill"
+                href="#tab-1"
+                >All</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-2"
+                >New Arrival</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-3"
+                >Top Sale</a
+              >
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div id="tab-1" class="tab-pane fade show p-0 active">
+              <div class="row g-3 mb-4">
+                @if($gun_products)
+                  @foreach ($gun_products as $gun)
+                  <x-card :product="$gun" />
+                  @endforeach
+                  @else
+                    <h3 class="text-muted text-center">Nothing to display!</h3class>
+                @endif
+              </div>
+              <a href="{{ route('gun.showAll', ['id' => 'all']) }}" class="text-center h4">See More</a>
+            </div>
+            <div id="tab-2" class="tab-pane fade show p-0">
+              <div class="row g-3">
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Wedding Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Wedding Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Wedding Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Wedding Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Wedding Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Wedding Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="tab-3" class="tab-pane fade show p-0">
+              <div class="row g-3">
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Custom Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Custom Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Custom Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Custom Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Custom Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex h-100">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="img-fluid"
+                        src="img/gun-1.jpg"
+                        alt=""
+                        style="width: 150px; height: 85px"
+                      />
+                      <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
+                    </div>
+                    <div
+                      class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
+                    >
+                      <h5 class="text-uppercase">Custom Cake</h5>
+                      <span
+                        >Ipsum ipsum clita erat amet dolor sit justo sea eirmod
+                        diam stet sit justo</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Service Start -->
     <div
       class="container-fluid service position-relative px-5 mt-5"
