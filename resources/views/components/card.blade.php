@@ -1,8 +1,12 @@
 <div class="col-lg-6">
-                    <a href="{{ route('singleGun.show', ['id' => $product->id]) }}">
-                      <div class="d-flex h-100">
-                        <div class="flex-shrink-0">
-                          <img
+  @if ($product instanceof App\Models\AccessoryProduct)
+    <a href="{{ route('singleAccessory.show', ['id' => $product->id]) }}">
+  @elseif($product instanceof App\Models\GunProduct)
+    <a href="{{ route('singleGun.show', ['id' => $product->id]) }}">
+  @endif
+      <div class="d-flex h-100">
+          <div class="flex-shrink-0">
+              <img
                             class="img-fluid"
                             src="{{ url('img/sniper.jpg') }}"
                             alt=""

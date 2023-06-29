@@ -17,7 +17,8 @@ class Controller extends BaseController
     {
         $gunCategory = DB::table('gun_categories')
                             ->get();
-        
-        View::share(['guns' => $gunCategory]);
+        $accessoryCategory = DB::table('accessory_categories')
+                                ->get();
+        View::share(['guns' => $gunCategory, 'accessories' => $accessoryCategory]);
     }
 }

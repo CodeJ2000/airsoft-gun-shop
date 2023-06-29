@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccessoryProduct;
 use App\Models\GunProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,12 +18,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function indexGun($cat_id)
     {
         
-        $gun_products = $this->getGunProducts($id);
+        $gun_products = $this->getGunProducts($cat_id);
 
-        return view('list-products', compact('gun_products'));
+        return view('list-products', ['products' => $gun_products]);
     }
 
     /**
@@ -35,16 +36,16 @@ class ProductController extends Controller
         
     }
 
-    private function getGunProducts($id = '')
+    private function getGunProducts($category_id = '')
     {
-        if($id == 'all'){
+        if($category_id == 'all'){
             return GunProduct::with('brand')
                             ->inRandomOrder()
                             ->get();    
         }
 
         return GunProduct::with('brand')
-                            ->where('category_id', $id)
+                            ->where('category_id', $category_id)
                             ->inRandomOrder()
                             ->get();
     }
@@ -81,7 +82,7 @@ class ProductController extends Controller
         $singleGun = GunProduct::with('brand')
                                 ->find($id);
         $brandName = $singleGun->brand->name;
-        return view('single', ['singleGun' => $singleGun, 'brandName' => $brandName]);
+        return view('single', ['singleProduct' => $singleGun, 'brandName' => $brandName]);
     }
 
 
@@ -124,9 +125,24 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexAccessory()
+    public function indexAccessory($cat_id)
     {
-        //
+        $accessory_products = $this->getAccessoryProducts($cat_id);
+
+        return view('list-products', ['products' => $accessory_products]);
+    }
+
+    private function getAccessoryProducts($category_id = '')
+    {
+        if($category_id == 'all'){
+            return AccessoryProduct::with('brand')
+                                    ->inRandomOrder()
+                                    ->get();
+        }
+
+        return AccessoryProduct::with('brand')
+                                ->where('category_id', $category_id)
+                                ->get();
     }
 
     /**
@@ -158,7 +174,11 @@ class ProductController extends Controller
      */
     public function showAccessory($id)
     {
-        //
+        $singleAccessory = AccessoryProduct::with('brand')
+                                            ->find($id);
+        $brandName = $singleAccessory->brand->name;
+
+        return view('single', ['singleProduct' => $singleAccessory, 'brandName' => $brandName]);
     }
 
     /**

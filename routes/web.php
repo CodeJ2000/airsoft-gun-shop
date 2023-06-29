@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('main');
 Route::get('showgun/{id}',[ProductController::class, 'showGun'])->name('singleGun.show');
-Route::get('listGuns/{id}',[ProductController::class, 'index'])->name('gun.showAll');
+Route::get('showaccessory/{id}',[ProductController::class, 'showAccessory'])->name('singleAccessory.show');
+
+Route::get('listGuns/{id}',[ProductController::class, 'indexGun'])->name('gun.showAll');
+Route::get('listAccessories/{id}',[ProductController::class, 'indexAccessory'])->name('accessory.showAll');
+
+Route::get('admin', [AdminController::class, 'index']);

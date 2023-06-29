@@ -573,15 +573,15 @@
           <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
               <div class="row g-3 mb-4">
-                @if($gun_products)
-                  @foreach ($gun_products as $gun)
-                  <x-card :product="$gun" />
+                @if($accessory_products)
+                  @foreach ($accessory_products as $accessory)
+                  <x-card :product="$accessory" />
                   @endforeach
                   @else
                     <h3 class="text-muted text-center">Nothing to display!</h3class>
                 @endif
               </div>
-              <a href="{{ route('gun.showAll', ['id' => 'all']) }}" class="text-center h4">See More</a>
+              <a href="{{ route('accessory.showAll', ['id' => 'all']) }}" class="text-center h4">See More</a>
             </div>
             <div id="tab-2" class="tab-pane fade show p-0">
               <div class="row g-3">

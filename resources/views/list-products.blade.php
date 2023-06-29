@@ -47,10 +47,12 @@
           <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
               <div class="row g-3">
-                @if($gun_products)
-                  @foreach ($gun_products as $gun_product)
-                  <x-card :product="$gun_product"/>
+                @if($products->count() > 0)
+                  @foreach ($products as $product)
+                  <x-card :product="$product"/>
                   @endforeach
+                  @else
+                  <p class="text-center h3 text-muted">No products to show</p>
                 @endif
               </div>
             </div>

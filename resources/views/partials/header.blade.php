@@ -121,15 +121,15 @@
               >Accessories</a
             >
             <div class="dropdown-menu m-0">
-              {{-- @if($accessories)
+              @if($accessories)
               @foreach ($accessories as $accessory)
-              <a href="menu.html" class="dropdown-item">{{ ucwords($accessory) }}</a>
+              <a href="{{ route('accessory.showAll', ['id' => $accessory->id]) }}" class="dropdown-item">{{ ucwords($accessory->name) }}</a>
               @endforeach
-              @endif --}}
+              @endif
             </div>
           </div>
 
-          <a href="auth/login.html" class="nav-item nav-link">Login</a>
+          <a href="#" class="nav-item nav-link">Login</a>
           <a href="cart.html" class="nav-item nav-link"
             ><i class="fa fa-shopping-cart"></i><sup>2</sup></a
           >
