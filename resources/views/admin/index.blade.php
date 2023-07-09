@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Bootstrap Advance Admin Template</title>
+    <title>Admin | Dashboard</title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="{{ url('admin-assets/css/bootstrap.css') }}" rel="stylesheet" />
@@ -26,16 +26,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">COMPANY NAME</a>
+                <a class="navbar-brand" href="{{ route('admin.dashboard') }}">Airsoft Zone</a>
             </div>
-
+{{-- 
             <div class="header-right">
 
                 <a href="message-task.html" class="btn btn-info" title="New Message"><b>30 </b><i class="fa fa-envelope-o fa-2x"></i></a>
                 <a href="message-task.html" class="btn btn-primary" title="New Task"><b>40 </b><i class="fa fa-bars fa-2x"></i></a>
-                <a href="login.html" class="btn btn-danger" title="Logout"><i class="fa fa-exclamation-circle fa-2x"></i></a>
+                <a href="login.html" class="btn btn-danger" title="Logout">Lagout</a>
 
-            </div>
+            </div> --}}
         </nav>
         <!-- /. NAV TOP  -->
         <nav class="navbar-default navbar-side" role="navigation">
@@ -59,118 +59,47 @@
                         <a class="active-menu" href="index.html"><i class="fa fa-dashboard "></i>Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-desktop "></i>UI Elements <span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-desktop "></i>Product Management <span class="fa arrow"></span></a>
                          <ul class="nav nav-second-level">
                             <li>
-                                <a href="panel-tabs.html"><i class="fa fa-toggle-on"></i>Tabs & Panels</a>
+                                <a href="{{ route('manage.gun') }}">Manage Guns</a>
                             </li>
                             <li>
-                                <a href="notification.html"><i class="fa fa-bell "></i>Notifications</a>
+                                <a href="notification.html"></i>Manage Accessories</a>
                             </li>
-                             <li>
-                                <a href="progress.html"><i class="fa fa-circle-o "></i>Progressbars</a>
-                            </li>
-                             <li>
-                                <a href="buttons.html"><i class="fa fa-code "></i>Buttons</a>
-                            </li>
-                             <li>
-                                <a href="icons.html"><i class="fa fa-bug "></i>Icons</a>
-                            </li>
-                             <li>
-                                <a href="wizard.html"><i class="fa fa-bug "></i>Wizard</a>
-                            </li>
-                             <li>
-                                <a href="typography.html"><i class="fa fa-edit "></i>Typography</a>
-                            </li>
-                             <li>
-                                <a href="grid.html"><i class="fa fa-eyedropper "></i>Grid</a>
-                            </li>
-                            
-                           
                         </ul>
                     </li>
                      <li>
-                        <a href="#"><i class="fa fa-yelp "></i>Extra Pages <span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-yelp "></i>Categories and Brands <span class="fa arrow"></span></a>
                          <ul class="nav nav-second-level">
                             <li>
-                                <a href="invoice.html"><i class="fa fa-coffee"></i>Invoice</a>
+                                <a href="{{ route('manage.categories') }}">Manage Categories</a>
                             </li>
                             <li>
-                                <a href="pricing.html"><i class="fa fa-flash "></i>Pricing</a>
+                                <a href="pricing.html">Manage Accessory Categories</a>
                             </li>
                              <li>
-                                <a href="component.html"><i class="fa fa-key "></i>Components</a>
+                                <a href="component.html">Manage Brands</a>
                             </li>
-                             <li>
-                                <a href="social.html"><i class="fa fa-send "></i>Social</a>
-                            </li>
-                            
-                             <li>
-                                <a href="message-task.html"><i class="fa fa-recycle "></i>Messages & Tasks</a>
-                            </li>
-                            
-                           
                         </ul>
                     </li>
                     <li>
-                        <a href="table.html"><i class="fa fa-flash "></i>Data Tables </a>
-                        
-                    </li>
-                     <li>
-                        <a href="#"><i class="fa fa-bicycle "></i>Forms <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
-                           
-                             <li>
-                                <a href="form.html"><i class="fa fa-desktop "></i>Basic </a>
-                            </li>
-                             <li>
-                                <a href="form-advance.html"><i class="fa fa-code "></i>Advance</a>
-                            </li>
-                             
-                           
-                        </ul>
-                    </li>
-                      <li>
-                        <a href="gallery.html"><i class="fa fa-anchor "></i>Gallery</a>
-                    </li>
-                     <li>
-                        <a href="error.html"><i class="fa fa-bug "></i>Error Page</a>
+                        <a href="table.html">Orders Management</a>
                     </li>
                     <li>
-                        <a href="login.html"><i class="fa fa-sign-in "></i>Login Page</a>
+                        <a href="table.html">Customers Management</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sitemap "></i>Multilevel Link <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#"><i class="fa fa-bicycle "></i>Second Level Link</a>
-                            </li>
-                             <li>
-                                <a href="#"><i class="fa fa-flask "></i>Second Level Link</a>
-                            </li>
-                            <li>
-                                <a href="#">Second Level Link<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#"><i class="fa fa-plus "></i>Third Level Link</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="fa fa-comments-o "></i>Third Level Link</a>
-                                    </li>
-
-                                </ul>
-
-                            </li>
-                        </ul>
+                        <a href="table.html">Reports and Analytics</a>
                     </li>
-                   
                     <li>
-                        <a href="blank.html"><i class="fa fa-square-o "></i>Blank Page</a>
+                        <a href="table.html">Settings</a>
+                    </li>
+                    <li>
+                        <a href="table.html">Lagout</a>
                     </li>
                 </ul>
-
             </div>
-
         </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
@@ -184,31 +113,34 @@
                 </div>
                 <!-- /. ROW  -->
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="main-box mb-red">
-                            <a href="#">
-                                <i class="fa fa-bolt fa-5x"></i>
-                                <h5>Zero Issues</h5>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="main-box mb-dull">
-                            <a href="#">
-                                <i class="fa fa-plug fa-5x"></i>
-                                <h5>40 Task In Check</h5>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="main-box mb-pink">
-                            <a href="#">
-                                <i class="fa fa-dollar fa-5x"></i>
-                                <h5>200K Pending</h5>
-                            </a>
-                        </div>
-                    </div>
-
+                    <div class="col-md-3 ">
+                        <div class="alert alert-info text-center">
+                              <i class="fa fa-desktop fa-5x"></i>
+                              <h3>500+&nbsp; <i class="fa fa-dollar"></i></h3>
+                              Pending For Approval
+                          </div>
+                      </div>
+                    <div class="col-md-3 ">
+                        <div class="alert alert-success text-center">
+                              <i class="fa fa-bars fa-5x"></i>
+                              <h3>300+ Tasks</h3>
+                              Pending For New Events
+                          </div>
+                      </div>
+                    <div class="col-md-3 ">
+                        <div class="alert alert-warning text-center">
+                              <i class="fa fa-fax fa-5x"></i>
+                              <h3>56+ Calls</h3>
+                             To Be Made 
+                          </div>
+                      </div>
+                      <div class="col-md-3 ">
+                        <div class="alert alert-danger text-center">
+                              <i class="fa fa-bomb fa-5x"></i>
+                              <h3>30+ Issues </h3>
+                              To Be Resolved Now
+                          </div>
+                      </div> 
                 </div>
                 <!-- /. ROW  -->
 

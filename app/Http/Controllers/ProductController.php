@@ -31,9 +31,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexAdmin()
+    public function indexGunAdmin()
     {
-        
+        return view('admin.manage-guns');
     }
 
     private function getGunProducts($category_id = '')
