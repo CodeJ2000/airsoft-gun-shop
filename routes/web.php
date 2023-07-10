@@ -35,8 +35,10 @@ Route::get('admin/manageGunCategories-form', [CategoriesController::class, 'crea
 Route::post('admin/manageGunCategories-form', [CategoriesController::class, 'storeGun'])->name('manageGun.categories.store');
 Route::get('admin/updateGunCategories-form/{id}', [CategoriesController::class, 'editGun'])->name('updateGun.form');
 Route::post('admin/updateGunCategories-form/{id}', [CategoriesController::class, 'updateGun'])->name('updateGun.form');
-
+Route::delete('admin/gun-categories/{id}', [CategoriesController::class, 'destroyGun'])->name('gun-categories.destroy');
 
 Route::get('admin/manageAccessoryCategories-form', [CategoriesController::class, 'createAccessory'])->name('manageAccessory.categories-form');
-
 Route::post('admin/manageAccessoryCategories-form', [CategoriesController::class, 'storeAccessory'])->name('manageAccessory.categories.store');
+Route::get('admin/updateAccessoryCategories-form/{id}', [CategoriesController::class, 'editAccessory'])->name('updateAccessory.form');
+Route::post('admin/updateAccessoryCategories-form/{id}', [CategoriesController::class, 'updateAccessory'])->name('updateAccessory.form');
+Route::delete('admin/accessory-categories/{id}', [CategoriesController::class, 'destroyAccessory'])->name('accessory-categories.destroy');

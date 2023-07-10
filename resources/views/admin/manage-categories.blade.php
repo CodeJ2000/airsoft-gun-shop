@@ -110,6 +110,13 @@
                         <h1 class="page-head-line">Manage Categories</h1>
                     </div>
                 </div>
+                @if (session()->has('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @php
+                    session()->forget('success')
+                @endphp
+                @endif
+
                 <!-- /. ROW  -->
                 <div class="row">
                     <div class="col-md-6">
@@ -133,7 +140,12 @@
                                             <tr>
                                                 <td>1</td>
                                                 <td>{{ ucwords($gun_cat->name) }}</td>
-                                                <td class="row"><a href="{{ route('updateGun.form', ['id' => $gun_cat->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <a href="" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
+                                                <td class="row"><a href="{{ route('updateGun.form', ['id' => $gun_cat->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form action="{{ route('gun-categories.destroy', ['id' => $gun_cat->id]) }}" method="POST" style="display:inline;">
+                                                    @csrf
+    
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this {{ ucwords($gun_cat->name) }} category')" type="submit"><i class="fa fa-trash"></i></button>
+                                                    </form></td>
                                             </tr>   
                                             @endforeach
                                             @endif
@@ -170,7 +182,12 @@
                                             <tr>
                                                 <td>1</td>
                                                 <td>{{ ucwords($accessory_cat->name) }}</td>
-                                                <td><a href="#" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <a href="" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
+                                                <td><a href="{{ route('updateAccessory.form', ['id' => $accessory_cat->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form method="POST" action="{{ route('accessory-categories.destroy', ['id' => $accessory_cat->id]) }}" style="display: inline;">
+                                                @csrf
+
+                                                @method('DELETE')
+                                                <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete {{ ucwords($accessory_cat->name) }} category')" type="submit"><i class="fa fa-trash"></i></button>
+                                                </form></td>
                                             </tr>   
                                             @endforeach
                                             @endif
