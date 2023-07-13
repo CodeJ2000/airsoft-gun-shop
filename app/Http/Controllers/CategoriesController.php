@@ -29,7 +29,8 @@ class CategoriesController extends Controller
     {   $routeName = "manageGun.categories.store";
         $gunHeader = "Add a category for guns";
         $mainHeader = "Manage Category";
-        return view('admin.manage-categories-form', ['categoryHeader' => $gunHeader, 'routeName' => $routeName , 'header' => $mainHeader]);
+        $redirectTo = "manage.categories";
+        return view('admin.manage-categories-brands-form', ['subHeader' => $gunHeader, 'routeName' => $routeName , 'header' => $mainHeader, 'redirectTo' => $redirectTo]);
     }
 
     public function createAccessory()
@@ -37,7 +38,8 @@ class CategoriesController extends Controller
         $routeName = "manageAccessory.categories.store";
         $accessoryHeader = "Add a category for Accessories";
         $mainHeader = "Manage Category";
-        return view('admin.manage-categories-form', ['categoryHeader' => $accessoryHeader, 'routeName' => $routeName, 'header' => $mainHeader]);
+        $redirectTo = "manage.categories";
+        return view('admin.manage-categories-brands-form', ['subHeader' => $accessoryHeader, 'routeName' => $routeName, 'header' => $mainHeader, 'redirectTo' => $redirectTo]);
     }
 
     /**
@@ -55,8 +57,7 @@ class CategoriesController extends Controller
         $gunCategory = new GunCategory();
         $gunCategory->name = $validated['name'];
         $gunCategory->save();
-        $request->session()->put('success', 'Gun category is successfully added');
-        return redirect()->route('manage.categories');
+        return redirect()->route('manage.categories')->with('success', 'Gun category is successfully added');
     }
 
     public function storeAccessory(Request $request)
@@ -68,8 +69,7 @@ class CategoriesController extends Controller
         $accessoryCategory = new AccessoryCategory();
         $accessoryCategory->name = $validated['name'];
         $accessoryCategory->save();
-        $request->session()->put('success', 'Accessory category is successfully added');
-        return redirect()->route('manage.categories');
+        return redirect()->route('manage.categories')->with('success', 'Accessory category is successfully added');
     }
     /**
      * Display the specified resource.
@@ -94,7 +94,8 @@ class CategoriesController extends Controller
         $header = "Edit " . $gunCat->name;
         $mainHeader = "Gun Category";
         $routeName = "updateGun.form";
-        return view('admin.manage-categories-form', ['category' => $gunCat, 'categoryHeader' => $header, 'routeName' => $routeName, 'header' => $mainHeader]);        
+        $redirectTo = "manage.categories";
+        return view('admin.manage-categories-brands-form', ['dataFound' => $gunCat, 'subHeader' => $header, 'routeName' => $routeName, 'header' => $mainHeader, 'redirectTo' => $redirectTo]);        
     }
 
     public function editAccessory($id)
@@ -103,7 +104,8 @@ class CategoriesController extends Controller
         $header = "Edit " . $accessoryCat->name;
         $mainHeader = "Accessory Category";
         $routeName = "updateAccessory.form";
-        return view('admin.manage-categories-form', ['category' => $accessoryCat, 'categoryHeader' => $header, 'routeName' => $routeName, 'header' => $mainHeader]);
+        $redirectTo = "manage.categories";
+        return view('admin.manage-categories-brands-form', ['dataFound' => $accessoryCat, 'subHeader' => $header, 'routeName' => $routeName, 'header' => $mainHeader, 'redirectTo' => $redirectTo]);
     }
     /**
      * Update the specified resource in storage.
@@ -121,9 +123,7 @@ class CategoriesController extends Controller
         
         $gunCategory->name = $validated['name'];
         $gunCategory->save();
-        $request->session()->put('success', 'Successfully Updated');
-        
-        return redirect()->route('manage.categories')->with('removeSuccess', true);
+        return redirect()->route('manage.categories')->with('success', 'Successfully Updated');
     }
 
     public function updateAccessory(Request $request, $id)
@@ -134,9 +134,7 @@ class CategoriesController extends Controller
         $accessoryCategory = AccessoryCategory::find($id);
         $accessoryCategory->name = $validated['name'];
         $accessoryCategory->save();
-        $request->session()->put('success', 'Successfully Updated');
-
-        return redirect()->route('manage.categories');
+        return redirect()->route('manage.categories')->with('success', 'Successfully Updated');
         
     }
     /**
@@ -150,10 +148,8 @@ class CategoriesController extends Controller
         $gunCategory = GunCategory::find($id);
         if($gunCategory){
             $gunCategory->delete();
-            session()->flash('success', "Successfully deleted!");
         }
-
-        return redirect()->route('manage.categories');
+        return redirect()->route('manage.categories')->with('success', "Successfully deleted!");
     }
 
     public function destroyAccessory($id)
@@ -161,9 +157,7 @@ class CategoriesController extends Controller
         $accessoryCategory = AccessoryCategory::find($id);
         if($accessoryCategory){
             $accessoryCategory->delete();
-            session()->flash('success', 'Successfully deleted!');
         }
-
-        return redirect()->route('manage.categories');
+        return redirect()->route('manage.categories')->with('success', 'Successfully deleted!');
     }
 }

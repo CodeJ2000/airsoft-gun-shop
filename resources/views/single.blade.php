@@ -13,19 +13,19 @@
     <!-- Single product start -->
     <div class="container-fluid d-lg-flex mt-4 gap-3">
       <div class="col-lg-4 ">
-        <img id="mainImage" class="img-fluid w-100 pb-1 border" src="{{ url('img/sniper.jpg') }}" alt="" />
+        <img id="mainImage" class="img-fluid w-100 pb-1 border" src="{{ url('storage/product_images/' . $singleProduct->images[0]->filename) }}" alt="" />
         <div class="small-img-group d-flex">
           <div class="small-img-col p-1 border">
-            <img src="{{ url('img/sniper.jpg') }}" width="100%" class="class-img " alt="" onclick="changeImage(this)"/>
+            <img src="{{ url('storage/product_images/' . $singleProduct->images[0]->filename) }}" width="100%" class="class-img " alt="" onclick="changeImage(this)"/>
           </div>
           <div class="small-img-col p-1 border">
-            <img src="{{ url('img/sniper-2.jpg') }}" width="100%" class="class-img " alt="" onclick="changeImage(this)" />
+            <img src="{{ url('storage/product_images/' . $singleProduct->images[1]->filename) }}" width="100%" class="class-img " alt="" onclick="changeImage(this)" />
           </div>
           <div class="small-img-col p-1 border">
-            <img src="{{ url('img/sniper-3.jpg') }}" width="100%" class="class-img " alt="" onclick="changeImage(this)"/>
+            <img src="{{ url('storage/product_images/' . $singleProduct->images[2]->filename) }}" width="100%" class="class-img " alt="" onclick="changeImage(this)"/>
           </div>
           <div class="small-img-col p-1 border">
-            <img src="{{ url('img/sniper-4.jpg') }}" width="100%" class="class-img " alt="" onclick="changeImage(this)"/>
+            <img src="{{ url('storage/product_images/' . $singleProduct->images[3]->filename) }}" width="100%" class="class-img " alt="" onclick="changeImage(this)"/>
           </div>
         </div>
       </div>

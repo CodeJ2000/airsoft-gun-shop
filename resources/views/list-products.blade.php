@@ -51,6 +51,9 @@
                   @foreach ($products as $product)
                   <x-card :product="$product"/>
                   @endforeach
+                  <div class="text-center">
+                    {{ $products->links() }}
+                 </div>
                   @else
                   <p class="text-center h3 text-muted">No products to show</p>
                 @endif

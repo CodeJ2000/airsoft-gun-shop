@@ -2,14 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\GunImage;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GunProduct extends Model
 {
     use HasFactory;
 
     protected $table = "gun_products";
+    protected $fillable = [
+        'name',
+        'price',
+        'description',
+        'brand_id',
+        'category_id'
+    ];
 
     public function brand()
     {
@@ -19,5 +27,10 @@ class GunProduct extends Model
     public function category()
     {
         return $this->belongsTo(GunCategory::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(GunImage::class);
     }
 }

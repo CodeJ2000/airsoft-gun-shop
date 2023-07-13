@@ -75,11 +75,8 @@
                             <li>
                                 <a href="{{ route('manage.categories') }}">Manage Categories</a>
                             </li>
-                            <li>
-                                <a href="pricing.html">Manage Accessory Categories</a>
-                            </li>
                              <li>
-                                <a href="component.html">Manage Brands</a>
+                                <a href="{{ route('manage.brands') }}">Manage Brands</a>
                             </li>
                         </ul>
                     </li>

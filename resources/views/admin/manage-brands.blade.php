@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -59,10 +59,10 @@
                         <a class="active-menu" href="index.html"><i class="fa fa-dashboard "></i>Dashboard</a>
                     </li>
                     <li>
-                        <a href="#" class="active-menu-top"><i class="fa fa-desktop "></i>Product Management <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level collapse in">
+                        <a href="#" class=""><i class="fa fa-desktop "></i>Product Management <span class="fa arrow"></span></a>
+                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{ route('manage.gun') }}" class="active-menu">Manage Guns</a>
+                                <a href="{{ route('manage.gun') }}">Manage Guns</a>
                             </li>
                             <li>
                                 <a href="notification.html"></i>Manage Accessories</a>
@@ -70,16 +70,13 @@
                         </ul>
                     </li>
                      <li>
-                        <a href="#"><i class="fa fa-yelp "></i>Categories and Brands <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
+                        <a href="#" class="active-menu-top"><i class="fa fa-yelp "></i>Categories and Brands <span class="fa arrow"></span></a>
+                         <ul class="nav nav-second-level collapse in">
                             <li>
-                                <a href="{{ route('manage.categories') }}">Manage Categories</a>
-                            </li>
-                            <li>
-                                <a href="pricing.html">Manage Accessory Categories</a>
+                                <a  href="{{ route('manage.categories') }}">Manage Categories</a>
                             </li>
                              <li>
-                                <a href="component.html">Manage Brands</a>
+                                <a class="active-menu" href="{{ route('manage.brands') }}">Manage Brands</a>
                             </li>
                         </ul>
                     </li>
@@ -107,76 +104,71 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Manage Airsoft Guns</h1>
+                        <h1 class="page-head-line">Manage Brands</h1>
                     </div>
                 </div>
-                <!-- /. ROW  -->
-                 
-                                 
-            <div class="row">
-                <div class="col-lg-12">
-                    @if (session('success'))
-                      <div id="success-message" class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-                    <!--    Striped Rows Table  -->
-                  <div class="panel panel-default">
-                      <div class="panel-heading">
-                          <b>Brands</b>
-                      </div>
-                      
-                      <div class="panel-body">
-                          <div class="table-responsive">
-                              <table class="table table-striped">
-                                  <thead>
-                                      <tr>
-                                          <th>#</th>
-                                          <th>Name</th> 
-                                          <th>Price</th>
-                                          <th>Description</th>
-                                          <th>Brand</th>
-                                          <th>Category</th>
-                                          <th>Action</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                     @if ($products->count() > 0)
-                                     @php
-                                         $counter = 1;
-                                     @endphp
-                                         @foreach ($products as $product)
-                                         <tr>
-                                            <td>{{ $counter }}</td>
-                                            <td>{{ ucwords($product->name) }}</td>
-                                            <td>{{ $product->price }}</td>
-                                            <td>{{ ucwords($product->description) }}</td>
-                                            <td>{{ ucwords($product->brand->name) }}</td>
-                                            <td>{{ ucwords($product->category->name) }}</td>
-                                            <td class="row text-nowrap"><a href="{{ route('gun.edit', ['id' => $product->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form action="{{ route('gun.destroy', $product->id) }}" method="POST" style="display:inline;">
-                                                @csrf
+                @if (session()->has('success'))
+                    <div id="success-message" class="alert alert-success">{{ session('success') }}</div>
+                @php
+                    session()->forget('success')
+                @endphp
+                @endif
 
-                                                @method('DELETE')
-                                                <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this product?')" type="submit"><i class="fa fa-trash"></i></button>
-                                                </form></td>
-                                        </tr>
-                                        @php
-                                            $counter++;
-                                        @endphp      
-                                         @endforeach
-                                     @endif
-                                          
-                                  </tbody>
-                              </table>
-                              <div class="text-center">
-                                {{ $products->links() }}
+                <!-- /. ROW  -->
+                <div class="row">
+                    <div class="col-md-6">
+                          <!--    Striped Rows Table  -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <b>Brands</b>
                             </div>
-                              <a href="{{ route('gun.create') }}" class="btn btn-success">Add Product</a>
-                          </div>
-                      </div>
-                  </div>
-                  <!--  End  Striped Rows Table  -->
-              </div>
-            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($brands->count() > 0)
+                                            @php
+                                                $counter = 1;
+                                            @endphp
+                                                @foreach ($brands as $brand)
+                                                <tr>
+                                                    <td>{{ $counter }}</td>
+                                                    <td>{{ $brand->name }}</td>
+                                                    <td class="row"><a href="{{ route('brand.edit',['id' => $brand->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form action="{{ route('brand.destroy', ['id' => $brand->id]) }}" method="POST" style="display:inline;">
+                                                        @csrf
+        
+                                                        @method('DELETE')
+                                                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this  category')" type="submit"><i class="fa fa-trash"></i></button>
+                                                        </form></td>
+                                                </tr>   
+                                                @php
+                                                    $counter++;
+                                                @endphp
+                                                @endforeach
+                                            @endif
+                                            
+                                        </tbody>
+                                    </table>
+                                    <div class="text-center">
+                                        {{ $brands->links() }}
+                                    </div>
+                                    <a href="{{ route('brand.create') }}" class="btn btn-success">Add Brand</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  End  Striped Rows Table  -->
+                    </div>
+                </div>
                    <!-- /. ROW  -->
+            <div class="row">
+                
+            </div>
             </div>
             <!-- /. PAGE INNER  -->
         </div>
@@ -198,13 +190,15 @@
     <script src="{{ url('admin-assets/js/custom.js') }}"></script>
     <script>
         $(document).ready(function(){
-            $successMessage = $('#success-message');
-            if($successMessage){
+            const $successMessage = $('#success-message');
+
+            if($successMessage.length){
                 setTimeout(() => {
                     $successMessage.fadeOut();
                 }, 3000);
             }
-        });
-    </script>    
+        });        
+    </script>
+
 </body>
 </html>

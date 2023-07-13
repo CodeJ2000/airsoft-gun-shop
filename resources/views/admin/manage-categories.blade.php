@@ -75,11 +75,8 @@
                             <li>
                                 <a class="active-menu" href="{{ route('manage.categories') }}">Manage Categories</a>
                             </li>
-                            <li>
-                                <a href="pricing.html">Manage Accessory Categories</a>
-                            </li>
                              <li>
-                                <a href="component.html">Manage Brands</a>
+                                <a href="{{ route('manage.brands') }}">Manage Brands</a>
                             </li>
                         </ul>
                     </li>
@@ -110,11 +107,8 @@
                         <h1 class="page-head-line">Manage Categories</h1>
                     </div>
                 </div>
-                @if (session()->has('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @php
-                    session()->forget('success')
-                @endphp
+                @if (session('success'))
+                    <div id="success-message" class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
                 <!-- /. ROW  -->
@@ -136,9 +130,12 @@
                                         </thead>
                                         <tbody>
                                             @if($gun_categories->count() > 0)
+                                            @php
+                                                $counter = 1;
+                                            @endphp
                                             @foreach ($gun_categories as $gun_cat)
                                             <tr>
-                                                <td>1</td>
+                                                <td>{{ $counter }}</td>
                                                 <td>{{ ucwords($gun_cat->name) }}</td>
                                                 <td class="row"><a href="{{ route('updateGun.form', ['id' => $gun_cat->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form action="{{ route('gun-categories.destroy', ['id' => $gun_cat->id]) }}" method="POST" style="display:inline;">
                                                     @csrf
@@ -147,6 +144,9 @@
                                                     <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this {{ ucwords($gun_cat->name) }} category')" type="submit"><i class="fa fa-trash"></i></button>
                                                     </form></td>
                                             </tr>   
+                                            @php
+                                                $counter++;
+                                            @endphp
                                             @endforeach
                                             @endif
                                         </tbody>
@@ -178,9 +178,12 @@
                                         </thead>
                                         <tbody>
                                             @if($accessory_categories->count() > 0)
+                                            @php
+                                                $counter = 1;
+                                            @endphp
                                             @foreach ($accessory_categories as $accessory_cat)
                                             <tr>
-                                                <td>1</td>
+                                                <td>{{ $counter }}</td>
                                                 <td>{{ ucwords($accessory_cat->name) }}</td>
                                                 <td><a href="{{ route('updateAccessory.form', ['id' => $accessory_cat->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form method="POST" action="{{ route('accessory-categories.destroy', ['id' => $accessory_cat->id]) }}" style="display: inline;">
                                                 @csrf
@@ -189,6 +192,9 @@
                                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete {{ ucwords($accessory_cat->name) }} category')" type="submit"><i class="fa fa-trash"></i></button>
                                                 </form></td>
                                             </tr>   
+                                            @php
+                                                $counter++;
+                                            @endphp
                                             @endforeach
                                             @endif
                                         </tbody>
@@ -226,8 +232,17 @@
     <script src="{{ url('admin-assets/js/jquery.metisMenu.js') }}"></script>
        <!-- CUSTOM SCRIPTS -->
     <script src="{{ url('admin-assets/js/custom.js') }}"></script>
-    
+    <script>
+        $(document).ready(function(){
+            const $successMessage = $('#success-message');
 
+            if($successMessage.length){
+                setTimeout(() => {
+                    $successMessage.fadeOut();
+                }, 3000);
+            }
+        });        
+    </script>
 
 </body>
 </html>

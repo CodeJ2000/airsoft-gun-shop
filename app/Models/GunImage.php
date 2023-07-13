@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class GunImage extends Model
 {
     use HasFactory;
+    protected $fillable = ['filename'];
+    public function product()
+    {
+        return $this->belongsTo(GunProduct::class); 
+    }
 }

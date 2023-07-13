@@ -75,11 +75,8 @@
                             <li>
                                 <a class="active-menu" href="{{ route('manage.categories') }}">Manage Categories</a>
                             </li>
-                            <li>
-                                <a href="pricing.html">Manage Accessory Categories</a>
-                            </li>
                              <li>
-                                <a href="component.html">Manage Brands</a>
+                                <a href="{{ route('manage.brands') }}">Manage Brands</a>
                             </li>
                         </ul>
                     </li>
@@ -134,7 +131,7 @@
                                                      <input class="form-control" value="{{ isset($category) ? ucwords($category->name) : ''}}" name="name" type="text">
                                                  </div>
                                                  <button type="submit" class="btn btn-info">Submit</button>
-                                                 <a href="{{ route('manage.categories') }}" class="btn btn-muted">Back</a>
+                                                 <a href="{{ route($redirectBack) }}" class="btn btn-muted">Back</a>
                                              </form>
                                      </div>
                                  </div>

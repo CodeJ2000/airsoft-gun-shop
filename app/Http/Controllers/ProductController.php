@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccessoryProduct;
+use App\Models\Brand;
 use App\Models\GunProduct;
+use App\Models\GunCategory;
 use Illuminate\Http\Request;
+use App\Models\AccessoryProduct;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -33,21 +35,22 @@ class ProductController extends Controller
      */
     public function indexGunAdmin()
     {
-        return view('admin.manage-guns');
+        $gunProducts = $this->getGunProducts('all');
+        return view('admin.manage-guns', ['products' => $gunProducts]);
     }
 
     private function getGunProducts($category_id = '')
     {
         if($category_id == 'all'){
-            return GunProduct::with('brand')
+            return GunProduct::with(['brand', 'category'])
                             ->inRandomOrder()
-                            ->get();    
+                            ->paginate(10);    
         }
 
         return GunProduct::with('brand')
                             ->where('category_id', $category_id)
                             ->inRandomOrder()
-                            ->get();
+                            ->paginate(10);
     }
 
     /**
@@ -57,7 +60,19 @@ class ProductController extends Controller
      */
     public function createGun()
     {
-        //
+        $brands = Brand::all();
+        $categories = GunCategory::all();
+        $header = "Manage Gun Product";
+        $subHeader = "Add gun product";
+        $redirectTo = "manage.gun";
+
+        return view('admin.product-form', [
+            'brands' => $brands, 
+            'categories' => $categories,
+            'header' => $header,
+            'subHeader' => $subHeader,
+            'redirectTo' => $redirectTo
+        ]);
     }
 
     /**
@@ -68,7 +83,38 @@ class ProductController extends Controller
      */
     public function storeGun(Request $request)
     {
-        //
+        $messages = [
+            'brand_id.required' => 'The brand field is required',
+            'category_id.required' => 'The category field is required',
+            'images.required' => 'Please select an images',
+            'images.*.image' => 'Invalid image format',
+            'images.*.mimes' => 'Only JPEG, JPG, PNG, and GIF images are allowed',
+            'images.*.max' => 'Image size must not exceed 208KB'
+        ];
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:208'
+        ], $messages);
+        $gunProduct = GunProduct::create($validated);
+        
+        if($request->hasFile('images')){
+            $images = $request->file('images');
+
+            foreach($images as $image){
+                $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
+
+                $image->storeAs('public/product_images',  $fileName);
+
+                $gunProduct->images()->create(['filename' => $fileName]);
+                
+            }
+        }
+        return redirect()->route('manage.gun')->with('success', 'Gun added successfully.');
     }
 
     /**
@@ -94,7 +140,21 @@ class ProductController extends Controller
      */
     public function editGun($id)
     {
-        //
+        $gun = GunProduct::find($id);
+        $brands = Brand::all();
+        $categories = GunCategory::all();
+        $header = "Manage Gun Product";
+        $subHeader = "Add gun product";
+        $redirectTo = "manage.gun";
+
+        return view('admin.product-form', [
+            'product' => $gun,
+            'brands' => $brands, 
+            'categories' => $categories,
+            'header' => $header,
+            'subHeader' => $subHeader,
+            'redirectTo' => $redirectTo
+        ]);
     }
 
     /**
@@ -106,7 +166,23 @@ class ProductController extends Controller
      */
     public function updateGun(Request $request, $id)
     {
-        //
+        $messages = [
+            'brand_id.required' => " The brand field is required",
+            'category_id.required' => "The category field is required"
+        ];
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'brand_id' => 'required',
+            'category_id' => 'required',
+        ], $messages);
+        
+        $gun = GunProduct::findOrFail($id);
+        
+        $gun->update($validated);
+
+        return redirect()->route('manage.gun')->with('success', 'Gun updated successfully.');
     }
 
     /**
@@ -117,7 +193,12 @@ class ProductController extends Controller
      */
     public function destroyGun($id)
     {
-        //
+        $gun = GunProduct::findOrFail($id);
+
+        if($gun){
+            $gun->delete();
+            return redirect()->route('manage.gun')->with('success', 'Gun product is successfully deleted.');
+        }
     }
 
      /**
@@ -214,4 +295,5 @@ class ProductController extends Controller
     {
         //
     }
+
 }
