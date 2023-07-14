@@ -178,7 +178,11 @@
                                                     <label class="control-label col-lg-4">Image1 Upload</label>
                                                     <div class="">
                                                         <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+                                                                @if ( isset($product) && $product->images->count() > 0)
+                                                                <img src="{{ asset('storage/product_images/' . $product->images[0]->filename) }}" alt="Image">
+                                                                @endif
+                                                            </div>
                                                             <div>
                                                                 <span class="btn btn-file btn-success"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="images[]"></span>
                                                                 <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
@@ -193,7 +197,12 @@
                                                     <label class="control-label col-lg-4">Image2 Upload</label>
                                                     <div class="">
                                                         <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+                                                                @if ( isset($product) && $product->images->count() > 0)
+                                                                <img src="{{ asset('storage/product_images/' . $product->images[1]->filename) }}" alt="Image">
+                                                                @endif
+                                                            </div>
+
                                                             <div>
                                                                 <span class="btn btn-file btn-success"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="images[]"></span>
                                                                 <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
@@ -205,7 +214,11 @@
                                                     <label class="control-label col-lg-4">Image3 Upload</label>
                                                     <div class="">
                                                         <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+                                                                @if ( isset($product) && $product->images->count() > 0)
+                                                                <img src="{{ asset('storage/product_images/' . $product->images[2]->filename) }}" alt="Image">
+                                                                @endif
+                                                            </div>
                                                             <div>
                                                                 <span class="btn btn-file btn-success"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="images[]"></span>
                                                                 <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
@@ -217,7 +230,11 @@
                                                     <label class="control-label col-lg-4">Image4 Upload</label>
                                                     <div class="">
                                                         <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+                                                            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+                                                                @if ( isset($product) && $product->images->count() > 0)
+                                                                <img src="{{ asset('storage/product_images/' . $product->images[3]->filename) }}" alt="Image">
+                                                                @endif
+                                                            </div>
                                                             <div>
                                                                 <span class="btn btn-file btn-success"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="images[]"></span>
                                                                 <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>

@@ -8,6 +8,8 @@ use App\Models\GunCategory;
 use Illuminate\Http\Request;
 use App\Models\AccessoryProduct;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -89,7 +91,7 @@ class ProductController extends Controller
             'images.required' => 'Please select an images',
             'images.*.image' => 'Invalid image format',
             'images.*.mimes' => 'Only JPEG, JPG, PNG, and GIF images are allowed',
-            'images.*.max' => 'Image size must not exceed 208KB'
+            'images.*.max' => 'Image size must not exceed 1MB'
         ];
         $validated = $request->validate([
             'name' => 'required',
@@ -98,7 +100,7 @@ class ProductController extends Controller
             'brand_id' => 'required',
             'category_id' => 'required',
             'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:208'
+            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:1000'
         ], $messages);
         $gunProduct = GunProduct::create($validated);
         
@@ -108,7 +110,7 @@ class ProductController extends Controller
             foreach($images as $image){
                 $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
 
-                $image->storeAs('public/product_images',  $fileName);
+                $image->storeAs('public/product_images/',  $fileName);
 
                 $gunProduct->images()->create(['filename' => $fileName]);
                 
@@ -167,8 +169,11 @@ class ProductController extends Controller
     public function updateGun(Request $request, $id)
     {
         $messages = [
-            'brand_id.required' => " The brand field is required",
-            'category_id.required' => "The category field is required"
+            'brand_id.required' => 'The brand field is required',
+            'category_id.required' => 'The category field is required',
+            'images.*.image' => 'Invalid image format',
+            'images.*.mimes' => 'Only JPEG, JPG, PNG, and GIF images are allowed',
+            'images.*.max' => 'Image size must not exceed 1MB'
         ];
         $validated = $request->validate([
             'name' => 'required',
@@ -176,12 +181,31 @@ class ProductController extends Controller
             'description' => 'required',
             'brand_id' => 'required',
             'category_id' => 'required',
+            'images' => 'array',
+            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:1000'
         ], $messages);
         
         $gun = GunProduct::findOrFail($id);
         
+
         $gun->update($validated);
 
+        if($request->hasFile('images')){
+            $images = $request->file('images');
+
+            foreach($images as $index => $image){
+                if($image){
+                    Storage::delete('public/product_images/' . $gun->images[$index]->filename);
+                    File::delete('storage/product_images/' . $gun->images[$index]->filename);
+                    $gun->images[$index]->delete();
+                    $fileName = uniqid() . "." . $image->getClientOriginalExtension();
+                    $image->storeAs('public/product_images/', $fileName);
+                    $gun->images()->create(['filename' => $fileName]);
+                } else {
+                    continue;
+                }
+            }
+        }
         return redirect()->route('manage.gun')->with('success', 'Gun updated successfully.');
     }
 

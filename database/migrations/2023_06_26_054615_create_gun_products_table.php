@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description');
             $table->unsignedBigInteger('brand_id');
             $table->unsignedBigInteger('category_id');
-            
+            $table->integer('stock')->default(0);
             $table->timestamps();
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->foreign('category_id')->references('id')->on('gun_categories');
