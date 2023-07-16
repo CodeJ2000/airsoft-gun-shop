@@ -31,6 +31,15 @@ Route::group(['prefix' => 'admin'] , function(){
     Route::put('updateGunProduct/{id}', [ProductController::class, 'updateGun'])->name('gun.update');
     Route::delete('deleteGunProduct/{id}', [ProductController::class, 'destroyGun'])->name('gun.destroy');
 
+
+    Route::get('manageAccessory', [ProductController::class, 'indexAccessoryAdmin'])->name('manage.accessories');
+    Route::get('addAccessory', [ProductController::class, 'createAccessory'])->name('accessory.create');
+    Route::post('addAccessory', [ProductController::class, 'storeAccessory'])->name('accessory.store');
+    Route::get('editAccessoryProduct/{id}', [ProductController::class, 'editAccessory'])->name('accessory.edit');
+    Route::put('editAccessoryProduct/{id}', [ProductController::class, 'updateAccessory'])->name('accessory.update');
+    Route::delete('deleteAccessoryProduct/{id}', [ProductController::class, 'destroyAccessory'])->name('accessory.destroy');
+
+    
     Route::get('manageAccessoryCategories-form', [CategoriesController::class,'createAccessory'])->name('manageAccessory.categories-form');
     Route::post('manageAccessoryCategories-form', [CategoriesController::class, 'storeAccessory'])->name('manageAccessory.categories.store');
     Route::get('updateAccessoryCategories-form/{id}', [CategoriesController::class, 'editAccessory'])->name('updateAccessory.form');

@@ -1,10 +1,10 @@
-﻿@include('admin.partials.side-header')
+@include('admin.partials.side-header')
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Manage Airsoft Guns</h1>
+                        <h1 class="page-head-line">Manage Airsoft Accessories</h1>
                     </div>
                 </div>
                 <!-- /. ROW  -->
@@ -18,7 +18,7 @@
                     <!--    Striped Rows Table  -->
                   <div class="panel panel-default">
                       <div class="panel-heading">
-                          <b>Brands</b>
+                          <b>Accessory</b>
                       </div>
                       
                       <div class="panel-body">
@@ -48,7 +48,7 @@
                                             <td>{{ ucwords($product->description) }}</td>
                                             <td>{{ ucwords($product->brand->name) }}</td>
                                             <td>{{ ucwords($product->category->name) }}</td>
-                                            <td class="row text-nowrap"><a href="{{ route('gun.edit', ['id' => $product->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form action="{{ route('gun.destroy', $product->id) }}" method="POST" style="display:inline;">
+                                            <td class="row text-nowrap"><a href="{{ route('accessory.edit', ['id' => $product->id]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a> <form action="{{ route('accessory.destroy', $product->id) }}" method="POST" style="display:inline;">
                                                 @csrf
 
                                                 @method('DELETE')
@@ -66,7 +66,7 @@
                               <div class="text-center">
                                 {{ $products->links() }}
                             </div>
-                              <a href="{{ route('gun.create') }}" class="btn btn-success">Add Product</a>
+                              <a href="{{ route('accessory.create') }}" class="btn btn-success">Add Product</a>
                           </div>
                       </div>
                   </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccessoryCategory;
 use App\Models\Brand;
 use App\Models\GunProduct;
 use App\Models\GunCategory;
@@ -38,6 +39,7 @@ class ProductController extends Controller
     public function indexGunAdmin()
     {
         $gunProducts = $this->getGunProducts('all');
+
         return view('admin.manage-guns', ['products' => $gunProducts]);
     }
 
@@ -66,14 +68,20 @@ class ProductController extends Controller
         $categories = GunCategory::all();
         $header = "Manage Gun Product";
         $subHeader = "Add gun product";
+        $updateProduct = "gun.update";
+        $storeProduct = "gun.store";
         $redirectTo = "manage.gun";
+        $submitBtn = 'Add Product';
 
         return view('admin.product-form', [
             'brands' => $brands, 
             'categories' => $categories,
             'header' => $header,
             'subHeader' => $subHeader,
-            'redirectTo' => $redirectTo
+            'redirectTo' => $redirectTo,
+            'updateProduct' => $updateProduct,
+            'storeProduct' => $storeProduct,
+            'submitBtn' => $submitBtn
         ]);
     }
 
@@ -104,18 +112,7 @@ class ProductController extends Controller
         ], $messages);
         $gunProduct = GunProduct::create($validated);
         
-        if($request->hasFile('images')){
-            $images = $request->file('images');
-
-            foreach($images as $image){
-                $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
-
-                $image->storeAs('public/product_images/',  $fileName);
-
-                $gunProduct->images()->create(['filename' => $fileName]);
-                
-            }
-        }
+        $this->handleImages($request, $gunProduct);
         return redirect()->route('manage.gun')->with('success', 'Gun added successfully.');
     }
 
@@ -148,14 +145,18 @@ class ProductController extends Controller
         $header = "Manage Gun Product";
         $subHeader = "Add gun product";
         $redirectTo = "manage.gun";
+        $updateProduct = 'gun.edit';
+        $submitBtn = 'Update Product';
 
         return view('admin.product-form', [
             'product' => $gun,
+            'updateProduct' => $updateProduct,
             'brands' => $brands, 
             'categories' => $categories,
             'header' => $header,
             'subHeader' => $subHeader,
-            'redirectTo' => $redirectTo
+            'redirectTo' => $redirectTo,
+            'submitBtn' => $submitBtn
         ]);
     }
 
@@ -190,25 +191,11 @@ class ProductController extends Controller
 
         $gun->update($validated);
 
-        if($request->hasFile('images')){
-            $images = $request->file('images');
-
-            foreach($images as $index => $image){
-                if($image){
-                    Storage::delete('public/product_images/' . $gun->images[$index]->filename);
-                    File::delete('storage/product_images/' . $gun->images[$index]->filename);
-                    $gun->images[$index]->delete();
-                    $fileName = uniqid() . "." . $image->getClientOriginalExtension();
-                    $image->storeAs('public/product_images/', $fileName);
-                    $gun->images()->create(['filename' => $fileName]);
-                } else {
-                    continue;
-                }
-            }
-        }
+        $this->handleImages($request, $gun);
         return redirect()->route('manage.gun')->with('success', 'Gun updated successfully.');
     }
 
+ 
     /**
      * Remove the specified resource from storage.
      *
@@ -220,6 +207,9 @@ class ProductController extends Controller
         $gun = GunProduct::findOrFail($id);
 
         if($gun){
+            foreach($gun->images as $image){
+                Storage::disk('public')->delete('product_images/' . $image->filename);
+            }
             $gun->delete();
             return redirect()->route('manage.gun')->with('success', 'Gun product is successfully deleted.');
         }
@@ -237,17 +227,23 @@ class ProductController extends Controller
         return view('list-products', ['products' => $accessory_products]);
     }
 
+    public function indexAccessoryAdmin()
+    {
+        $accessories = $this->getAccessoryProducts('all');
+        return view('admin.manage-accessory', ['products' => $accessories]);
+    }
+
     private function getAccessoryProducts($category_id = '')
     {
         if($category_id == 'all'){
             return AccessoryProduct::with('brand')
                                     ->inRandomOrder()
-                                    ->get();
+                                    ->paginate(10);
         }
 
         return AccessoryProduct::with('brand')
                                 ->where('category_id', $category_id)
-                                ->get();
+                                ->paginate(10);
     }
 
     /**
@@ -257,7 +253,25 @@ class ProductController extends Controller
      */
     public function createAccessory()
     {
-        //
+        $brands = Brand::all();
+        $categories = AccessoryCategory::all();
+
+        $header = "Manage Accessory Product";
+        $subHeader = "Add accessory product";
+        $updateProduct = "accessory.update";
+        $storeProduct = "accessory.store";
+        $redirectTo = "manage.accessories";
+        $submitBtn = 'Add product';
+        return view('admin.product-form', [
+            'brands' => $brands, 
+            'categories' => $categories,
+            'header' => $header,
+            'subHeader' => $subHeader,
+            'redirectTo' => $redirectTo,
+            'updateProduct' => $updateProduct,
+            'storeProduct' => $storeProduct,
+            'submitBtn' => $submitBtn
+        ]);
     }
 
     /**
@@ -268,7 +282,30 @@ class ProductController extends Controller
      */
     public function storeAccessory(Request $request)
     {
-        //
+        $messages = [
+            'brand_id.required' => "The brand is required",
+            'category_id.required' => 'The category is required',
+            'images.*.image' => 'Invalid image format',
+            'images.*.mimes' => 'Only JPEG, JPG, PNG and GIF are allowed',
+            'images.*.max' => 'The images must not exceed to 1MB',
+            'images.*.required' => 'Please select an images' 
+        ]; 
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'images' => 'required|array',
+            'images.*' => 'max:1000|mimes:jpeg,jpg,png,gif|image'
+        ], $messages);
+
+        $accessory = AccessoryProduct::create($validated);
+
+        $this->handleImages($request, $accessory);
+
+        return redirect()->route('manage.accessories')->with('success', 'Accessory is successfully created.');
+        
     }
 
     /**
@@ -294,7 +331,29 @@ class ProductController extends Controller
      */
     public function editAccessory($id)
     {
-        //
+        $brands = Brand::all();
+        $categories = AccessoryCategory::all();
+        $accessory = AccessoryProduct::findOrFail($id);
+
+        $header = "Manage Accessory Product";
+        $subHeader = "Update accessory product";
+        $updateProduct = "accessory.update";
+        $storeProduct = "accessory.store";
+        $redirectTo = "manage.accessories";
+        $submitBtn = 'Update Product';
+
+        return view('admin.product-form', [
+            'product' => $accessory,
+            'brands' => $brands, 
+            'categories' => $categories,
+            'header' => $header,
+            'subHeader' => $subHeader,
+            'redirectTo' => $redirectTo,
+            'updateProduct' => $updateProduct,
+            'storeProduct' => $storeProduct,
+            'submitBtn' => $submitBtn
+        ]);
+
     }
 
     /**
@@ -306,7 +365,29 @@ class ProductController extends Controller
      */
     public function updateAccessory(Request $request, $id)
     {
-        //
+        $messages = [
+            'brand_id.required' => 'The brand is required',
+            'category_id.required' => 'The category is required',
+            'images.*.mimes' => 'Only JPEG, JPG, PNG and GIF are allowed',
+            'images.*.max' => "The image size must not exceed to 1MB",
+            'images.*.image' => 'Invalid image format'    
+        ];
+
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'images' => 'array',
+            'images.*' => 'mimes:jpeg,jpg,png,gif|max:1000|image'
+        ], $messages);
+
+        $accessory = AccessoryProduct::findOrFail($id);
+        $accessory->update($validated);
+        $this->handleImages($request, $accessory);
+        return redirect()->route('manage.accessories')->with('success', 'The accessory si successfully updated.');
+        
     }
 
     /**
@@ -317,7 +398,38 @@ class ProductController extends Controller
      */
     public function destroyAccessory($id)
     {
-        //
+        $accessory = AccessoryProduct::findOrFail($id);
+        if($accessory){
+            foreach($accessory->images as $image){
+                Storage::disk('public')->delete('product_images/', $image->filename);
+            }
+            $accessory->delete();
+        }
+        return redirect()->route('manage.accessories')->with('success', 'The accessory is successfully deleted.');
     }
+
+    private function handleImages(Request $request, $product)
+    {
+        if($request->hasFile('images')){
+            $images = $request->file('images');
+
+            foreach($images as $index => $image){
+                if($image){
+                    if($product->images->count() > $index){
+                        Storage::disk('public')->delete('product_images/' . $product->images[$index]->filename);
+                        $product->images[$index]->delete();
+                        $fileName = uniqid() . "." .$image->getClientOriginalExtension();
+                        $image->storeAs('public/product_images/', $fileName);
+                        $product->images()->create(['filename' => $fileName]);
+                    } else {
+                        $fileName = uniqid() . "." .$image->getClientOriginalExtension();
+                        $image->storeAs('public/product_images/', $fileName);
+                        $product->images()->create(['filename' => $fileName]);
+                    }
+                }
+            }
+        }
+    }
+
 
 }
