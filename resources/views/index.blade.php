@@ -1,5 +1,8 @@
 
 {{-- about.blade.php ---> Content of header and navigation bar --}}
+@if (session('success'))
+<div id="success-message" class="alert alert-success">{{ session('success') }}</div>
+@endif
 @include('partials.header')
 
 <!-- Hero Start -->
@@ -249,7 +252,7 @@
           </ul>
           <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
-              <div class="row g-3 mb-4">
+              {{-- <div class="row g-3 mb-4">
                 @if($gun_products)
                   @foreach ($gun_products as $gun)
                   <x-card :product="$gun" />
@@ -257,6 +260,17 @@
                   @else
                     <h3 class="text-muted text-center">Nothing to display!</h3class>
                 @endif
+              </div> --}}
+              <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;"> 
+                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3"> 
+                  @if($gun_products)
+                  @foreach ($gun_products as $gun)
+                  <x-card :product="$gun" />
+                  @endforeach
+                  @else
+                    <h3 class="text-muted text-center">Nothing to display!</h3class>
+                @endif
+                </div>
               </div>
               <a href="{{ route('gun.showAll', ['id' => 'all']) }}" class="text-center h4">See More</a>
             </div>
@@ -572,14 +586,16 @@
           </ul>
           <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
-              <div class="row g-3 mb-4">
-                @if($accessory_products)
+              <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;"> 
+                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3"> 
+                  @if($accessory_products)
                   @foreach ($accessory_products as $accessory)
                   <x-card :product="$accessory" />
                   @endforeach
                   @else
                     <h3 class="text-muted text-center">Nothing to display!</h3class>
                 @endif
+                </div>
               </div>
               <a href="{{ route('accessory.showAll', ['id' => 'all']) }}" class="text-center h4">See More</a>
             </div>

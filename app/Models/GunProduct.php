@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Image;
 use App\Models\GunImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,10 @@ class GunProduct extends Model
         'category_id'
     ];
 
+    public function cartItems()
+    {
+        return $this->morphMany(CartItem::class, 'productable');       
+    }
     public function brand()
     {
         return $this->belongsTo(Brand::class);

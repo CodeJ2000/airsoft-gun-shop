@@ -128,11 +128,23 @@
               @endif
             </div>
           </div>
-
-          <a href="#" class="nav-item nav-link">Login</a>
-          <a href="cart.html" class="nav-item nav-link"
-            ><i class="fa fa-shopping-cart"></i><sup>2</sup></a
-          >
+          @guest
+          <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
+          @endguest
+          @auth
+          <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-item nav-link">Logout</a>
+          <form action="{{ route('logout') }}" id="logout-form" method="POST">
+            @csrf
+          </form>
+          <a href="{{ route('cart') }}" class="nav-item nav-link"
+          ><i class="fa fa-shopping-cart"></i>
+          {{-- @if ($item)
+          <sup>{{ $item->count() }}</sup>
+          @endif --}}
+          </a
+        >
+          @endauth
+      
         </div>
       </div>
     </nav>

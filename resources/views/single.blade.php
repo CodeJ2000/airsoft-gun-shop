@@ -1,4 +1,6 @@
-
+@if (session('success'))
+<div id="success-message" class="alert alert-success">{{ session('success') }}</div>
+@endif
 @include('partials.header')
     <style>
       .small-img-group {
@@ -29,13 +31,21 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-5 col-md-10 col-10">
+      <div class="col-lg-5 col-md-10 col-10 text-wrap">
         <h3 class="mb-4">
           {{ $singleProduct->name }}
         </h3>
-        <a href="" class="btn btn-primary py-2 px-5 me-5 mb-3"
-          ><i class="fa fa-sharp fa-heart pe-2"></i>Add to Wishlist</a
-        >
+        <form action="{{ route('cart.store') }}" method="POST">
+          @csrf
+          <input type="hidden" name="product_id" value="{{ $singleProduct->id }}">
+          <input type="hidden" name="product_type" value="{{ get_class($singleProduct) }}">
+          <div class="input-group mb-3">
+              <input type="number" name="quantity" class="form-control" value="1" min="1" max="{{ $singleProduct->stock  }}">
+              <div class="input-group-append">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart pe-2"></i> Add to Cart</button>
+              </div>
+          </div>
+      </form>
         <h6 class="mb-4">BY <strong class="h4">{{ ucwords($brandName) }}</strong></h6>
         <h5 class="mb-4">
           Price: <s class="text-muted">&#8369; {{ $singleProduct->price }}</s>

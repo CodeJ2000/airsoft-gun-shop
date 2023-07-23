@@ -97,13 +97,14 @@ class ProductController extends Controller
             'brand_id.required' => 'The brand field is required',
             'category_id.required' => 'The category field is required',
             'images.required' => 'Please select an images',
+            'price.integer' => 'The price must be a valid number',
             'images.*.image' => 'Invalid image format',
             'images.*.mimes' => 'Only JPEG, JPG, PNG, and GIF images are allowed',
             'images.*.max' => 'Image size must not exceed 1MB'
         ];
         $validated = $request->validate([
             'name' => 'required',
-            'price' => 'required',
+            'price' => 'required|integer',
             'description' => 'required',
             'brand_id' => 'required',
             'category_id' => 'required',
@@ -178,7 +179,7 @@ class ProductController extends Controller
         ];
         $validated = $request->validate([
             'name' => 'required',
-            'price' => 'required',
+            'price' => 'required|integer',
             'description' => 'required',
             'brand_id' => 'required',
             'category_id' => 'required',
@@ -292,7 +293,7 @@ class ProductController extends Controller
         ]; 
         $validated = $request->validate([
             'name' => 'required',
-            'price' => 'required',
+            'price' => 'required|integer',
             'description' => 'required',
             'brand_id' => 'required',
             'category_id' => 'required',
@@ -375,7 +376,7 @@ class ProductController extends Controller
 
         $validated = $request->validate([
             'name' => 'required',
-            'price' => 'required',
+            'price' => 'required|integer',
             'description' => 'required',
             'brand_id' => 'required',
             'category_id' => 'required',

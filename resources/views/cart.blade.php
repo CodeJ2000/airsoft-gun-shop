@@ -11,92 +11,64 @@
     </style>
     <!-- Cart start -->
     <div class="container pt-4">
-      <h2 class="text-center">Your Cart</h2>
       <div class="tab-content">
         <div id="tab-1" class="tab-pane fade show p-0 active">
           <div class="row g-3">
-            <div class="col-lg-12">
-              <div class="d-flex h-100">
-                <div class="flex-shrink-0">
-                  <img
-                    class="img-fluid"
-                    src="img/gun-1.jpg"
-                    alt=""
-                    style="width: 150px; height: 85px"
-                  />
-                  <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
-                </div>
-                <div
-                  class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
-                >
-                  <h5 class="text-uppercase">Birthday Cake</h5>
-                  <span
-                    >Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam
-                    stet sit justo</span
-                  >
-                </div>
-                <div class="p-3 d-flex align-items-center">
-                  <a href="" class="cursor-pointer"
-                    ><i class="fs-2 far fa-times-circle"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
+            <div class="container">
+              <h1>Shopping Cart</h1>
+              <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @if($cartItems->count() > 0)
+                    @foreach ($cartItems as $cartItem)
+                    <tr>
+                      @php
+                        $image = $cartItem->productable->images->first()->filename
+                      @endphp
+                      <td class="align-middle">
+                            <img src="storage/product_images/{{ $image }}"  width="200px" alt="">
+                        <div class="media-body">
+                          <h4 class="media-heading"><a href="">{{ $cartItem->productable->name }}</a></h4>
+                          <span>Status:</span>
+                          @if ($cartItem->productable->stock < 1)
+                          <span class="text-da">
+                            Out of Stock
+                          </span>
+                          @else
+                          <span class="text-success">
+                            In Stock
+                          </span>
+                          @endif
+                        </div>
+                        </div>
+                      </td>
+                      <td class="align-middle">&#8369; {{ $cartItem->price }}</td>
+                      <td class="align-middle col-sm-2">{{ $cartItem->quantity }}</td>
+                      <td class="align-middle">&#8369; {{ $cartItem->total_price }}</td>
+                      <td class="align-middle">
+                        <form action="{{ route('cartItem.destroy', ['id' => $cartItem->id]) }}" style="display: inlinel" method="POST">
+                        @csrf
 
-            <div class="col-lg-12">
-              <div class="d-flex h-100">
-                <div class="flex-shrink-0">
-                  <img
-                    class="img-fluid"
-                    src="img/gun-1.jpg"
-                    alt=""
-                    style="width: 150px; height: 85px"
-                  />
-                  <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
-                </div>
-                <div
-                  class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
-                >
-                  <h5 class="text-uppercase">Birthday Cake</h5>
-                  <span
-                    >Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam
-                    stet sit justo</span
-                  >
-                </div>
-                <div class="p-3 d-flex align-items-center">
-                  <a href="" class="cursor-pointer"
-                    ><i class="fs-2 far fa-times-circle"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <div class="d-flex h-100">
-                <div class="flex-shrink-0">
-                  <img
-                    class="img-fluid"
-                    src="img/gun-1.jpg"
-                    alt=""
-                    style="width: 150px; height: 85px"
-                  />
-                  <h4 class="bg-dark text-primary p-2 m-0">$99.00</h4>
-                </div>
-                <div
-                  class="d-flex flex-column justify-content-center text-start bg-secondary border-inner px-4"
-                >
-                  <h5 class="text-uppercase">Birthday Cake</h5>
-                  <span
-                    >Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam
-                    stet sit justo</span
-                  >
-                </div>
-                <div class="p-3 d-flex align-items-center">
-                  <a href="" class="cursor-pointer"
-                    ><i class="fs-2 far fa-times-circle"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
+                        @method('DELETE')
+
+                        <button type="submit" onclick="return confirm('Are you sure you want to remove?')" class="btn btn-danger btn-sm cart-remove" data-key="">Remove</button>
+                        </form>
+                      </td>
+                  </tr>
+                    @endforeach
+                  @endif
+                </tbody>
+            </table>
+          </div>
+            
           </div>
         </div>
       </div>
@@ -109,21 +81,25 @@
               class="form-control"
               id="floatingInputGrid"
               placeholder="name@example.com"
-              value="Start here.."
+              value="{{ $shippingAddress }}"
+              readonly
             />
             <label for="floatingInputGrid"
-              >Enter special delivery instruction note...</label
+              >Your shipping address...</label
             >
+            <a href="{{ route('address.index') }}" class="btn btn-primary mt-2">Edit address</a>
           </div>
         </div>
       </form>
       <hr />
       <div class="subtotal">
         <div class="total">
-          <h3>Subtotal</h3>
-          <h2 class="total-price">&#8369; 4000</h2>
+          <h3>Total Price</h3>
+          <h2 class="total-price">&#8369; {{ $totalPrice }}</h2>
         </div>
         <a href="" class="btn btn-primary py-2 px-5 me-5 mb-3">CheckOut</a>
+        <a href="{{ Session::get('previous_url') }}" class="btn btn-success py-2 px-5 me-5 mb-3">Continue Shopping</a>
+        
       </div>
     </div>
     <!-- Cart end -->

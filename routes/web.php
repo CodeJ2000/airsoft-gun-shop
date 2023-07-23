@@ -3,9 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandsController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ShippingAddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +27,18 @@ Route::get('/', [HomeController::class, 'index'])->name('main');
 //Here is where the admin dashboard render.
 Route::get('admin', [AdminController::class, 'index'])->name('admin.dashboard');
 
+Route::get('customerLogin', [AuthController::class, 'index'])->name('login');
+Route::get('customerSignUp', [AuthController::class, 'signup_view'])->name('signup.view');
+Route::post('customerSignUp', [AuthController::class, 'signup'])->name('signup');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('authenticate', [AuthController::class, 'authenticate'])->name('login.auth');
+
+Route::get('customerCart', [CartController::class, 'index'])->name('cart')->middleware('role:customer');
+Route::post('addToCart', [CartItemController::class, 'store'])->name('cart.store');
+Route::delete('cartItem/delete/{id}', [CartItemController::class, 'destroy'])->name('cartItem.destroy');
+
+Route::get('shippingAddress', [ShippingAddressController::class, 'create'])->name('address.index');
+Route::post('shippingAddress', [ShippingAddressController::class, 'addOrUpdateAddress'])->name('address.store');
 Route::group(['prefix' => 'admin'] , function(){
     Route::get('manageGun', [ProductController::class, 'indexGunAdmin'])->name('manage.gun');
     Route::get('addGunProduct', [ProductController::class, 'createGun'])->name('gun.create');

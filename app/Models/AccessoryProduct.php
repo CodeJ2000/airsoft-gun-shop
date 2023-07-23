@@ -19,6 +19,11 @@ class AccessoryProduct extends Model
         'category_id'
     ];
 
+    public function cartItems()
+    {
+        return $this->morphMany(CartItem::class, 'productable');       
+    }
+
     public function brand()
     {
         return $this->belongsTo(Brand::class);

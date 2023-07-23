@@ -46,17 +46,19 @@
           </ul>
           <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
-              <div class="row g-3">
-                @if($products->count() > 0)
+              <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;"> 
+                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3"> 
+                  @if($products)
                   @foreach ($products as $product)
-                  <x-card :product="$product"/>
+                  <x-card :product="$product" />
                   @endforeach
                   <div class="text-center">
-                    {{ $products->links() }}
-                 </div>
+                      {{ $products->links() }}
+                  </div>
                   @else
-                  <p class="text-center h3 text-muted">No products to show</p>
+                    <h3 class="text-muted text-center">Nothing to display!</h3class>
                 @endif
+                </div>
               </div>
             </div>
             <div id="tab-2" class="tab-pane fade show p-0">
