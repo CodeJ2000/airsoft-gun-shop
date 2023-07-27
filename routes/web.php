@@ -36,6 +36,12 @@ Route::post('authenticate', [AuthController::class, 'authenticate'])->name('logi
 Route::get('customerCart', [CartController::class, 'index'])->name('cart')->middleware('role:customer');
 Route::post('addToCart', [CartItemController::class, 'store'])->name('cart.store');
 Route::delete('cartItem/delete/{id}', [CartItemController::class, 'destroy'])->name('cartItem.destroy');
+Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/success', [CartController::class, 'success'])->name('checkout.success');
+Route::get('/cancel', [CartController::class, 'cancel'])->name('checkout.cancel');
+Route::post('/webhook', [CartController::class, 'webhook'])->name('checkout.webhook');
+
+
 
 Route::get('shippingAddress', [ShippingAddressController::class, 'create'])->name('address.index');
 Route::post('shippingAddress', [ShippingAddressController::class, 'addOrUpdateAddress'])->name('address.store');

@@ -1,3 +1,6 @@
+@if (session('error'))
+<div class="alert alert-danger">{{ session('error') }}</div>
+@endif
 @include('partials.header')
 <style>
       .small-img-group {
@@ -97,8 +100,11 @@
           <h3>Total Price</h3>
           <h2 class="total-price">&#8369; {{ $totalPrice }}</h2>
         </div>
-        <a href="" class="btn btn-primary py-2 px-5 me-5 mb-3">CheckOut</a>
-        <a href="{{ Session::get('previous_url') }}" class="btn btn-success py-2 px-5 me-5 mb-3">Continue Shopping</a>
+        <form action="{{ route('checkout') }}" method="POST">
+          @csrf
+          <button type="submit" class="btn btn-primary py-2 px-5 me-5 mb-3">Checkout</button>
+          <a href="{{ Session::get('previous_url') }}" class="btn btn-success py-2 px-5 me-5 mb-3">Continue Shopping</a>
+        </form>
         
       </div>
     </div>

@@ -138,11 +138,26 @@
           </form>
           <a href="{{ route('cart') }}" class="nav-item nav-link"
           ><i class="fa fa-shopping-cart"></i>
-          {{-- @if ($item)
-          <sup>{{ $item->count() }}</sup>
-          @endif --}}
+          @if (auth()->check())
+            @php
+              $items = auth()->user()->cart->cartItems()->whereNull('order_id')->get()
+            @endphp
+            <sup class="text-danger">{{ $items->count() }}</sup>
+          @endif
+          {{-- {{ dd(auth()->user()->cart->cartItems) }} --}}
           </a
         >
+        <a href="{{ route('cart') }}" class="nav-item nav-link"
+        >Orders
+        @if (auth()->check())
+          @php
+            $items = auth()->user()->cart->cartItems()->whereNotNull('order_id')->get();
+          @endphp
+          <sup class="text-danger">{{ $items->count() }}</sup>
+        @endif
+        {{-- {{ dd(auth()->user()->cart->cartItems) }} --}}
+        </a
+      >
           @endauth
       
         </div>
