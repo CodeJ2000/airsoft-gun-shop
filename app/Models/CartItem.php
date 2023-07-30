@@ -26,7 +26,7 @@ class CartItem extends Model
         return $this->morphTo();
     }
 
-    public function order()
+    public function orders()
     {
         return $this->belongsTo(Order::class);
     }

@@ -1,5 +1,5 @@
-@include('partials.header')
-
+<x-base-layout>
+  
     <!-- Page Header Start -->
     <div class="container-fluid bg-dark bg-img p-5 mb-5">
       <div class="row">
@@ -369,4 +369,4 @@
     </div>
     <!-- Offer End -->
 
-@include('partials.footer')
+</x-base-layout>

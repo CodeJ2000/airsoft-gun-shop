@@ -9,6 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShippingAddressController;
 
 /*
@@ -36,6 +37,8 @@ Route::post('authenticate', [AuthController::class, 'authenticate'])->name('logi
 Route::get('customerCart', [CartController::class, 'index'])->name('cart')->middleware('role:customer');
 Route::post('addToCart', [CartItemController::class, 'store'])->name('cart.store');
 Route::delete('cartItem/delete/{id}', [CartItemController::class, 'destroy'])->name('cartItem.destroy');
+
+
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/success', [CartController::class, 'success'])->name('checkout.success');
 Route::get('/cancel', [CartController::class, 'cancel'])->name('checkout.cancel');
@@ -83,6 +86,8 @@ Route::group(['prefix' => 'admin'] , function(){
     Route::delete('deletebrand/{id}', [BrandsController::class, 'destroy'])->name('brand.destroy');
 });
 
+
+
 //Here is where the single gun show
 Route::get('showgun/{id}', [ProductController::class,'showGun'])->name('singleGun.show');
 //Here is where the single accessory show
@@ -91,3 +96,8 @@ Route::get('showaccessory/{id}', [ProductController::class, 'showAccessory'])->n
 Route::get('listGuns/{id}', [ProductController::class, 'indexGun'])->name('gun.showAll');
 //Here is where the list of accessory show in cards
 Route::get('listAccessories/{id}', [ProductController::class, 'indexAccessory'])->name('accessory.showAll');
+
+// order-list
+Route::get('orders', [OrderController::class, 'index'])->name('orders');
+
+Route::get('/order{orderId}/products/', [OrderController::class, 'getOrderProducts'])->name('order.products');

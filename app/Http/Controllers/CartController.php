@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccessoryProduct;
-use App\Models\GunProduct;
 use App\Models\Order;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Mockery\Matcher\Not;
 use Stripe\StripeClient;
+use App\Models\GunProduct;
+use Illuminate\Http\Request;
+use App\Models\AccessoryProduct;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Stripe\Exception\ApiConnectionException;
+use Stripe\Exception\AuthenticationException;
+use Stripe\Exception\OAuth\InvalidRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CartController extends Controller
@@ -44,45 +48,63 @@ class CartController extends Controller
 
     public function checkout()
     {
-
         $user = Auth::user();
-        $cartItems = $user->cart->cartItems;
-        $totalPrice = 0;
-        $cart = $user->cart->cartItems->whereNull('order_id');
-        if($cart->count() < 1){
-            return redirect()->route('cart')->with('error', 'Your cart is empty!');
-            die;
-        } else{
-            foreach($cartItems as $item){
-                if(!$item->order_id){
-                    $totalPrice += $item->productable->price;
-                    $this->lineItems[] = [
-                        'price_data' => [
-                          'currency' => 'usd',
-                          'product_data' => [
-                            'name' => $item->productable->name,
-                          ],
-                          'unit_amount' => $item->productable->price * 100,
-                        ],
-                        'quantity' => $item->quantity,
-                    ];
+        if(!$user){
+            throw new NotFoundHttpException();
+        }
+        try {
+            $cartItems = $user->cart->cartItems;
+            $totalPrice = 0;
+            $cart = $user->cart->cartItems->whereNull('order_id');
+            if($cart->count() < 1){
+                return redirect()->route('cart')->with('error', 'Your cart is empty!');
+                die;
+            } else {
+                $shippingAddress = $user->cart->shippingAddress;
+                if(!$shippingAddress){
+                    return back()->with('error', 'Please provide your shipping address!');
+                    exit();
+                } else {
+                    foreach($cartItems as $item){
+                        if(!$item->order_id){
+                            $totalPrice += $item->productable->price;
+                            $this->lineItems[] = [
+                                'price_data' => [
+                                'currency' => 'usd',
+                                'product_data' => [
+                                    'name' => $item->productable->name,
+                                ],
+                                'unit_amount' => $item->productable->price * 100,
+                                ],
+                                'quantity' => $item->quantity,
+                            ];
+                        }
+                    }
+                    $checkout_session = $this->stripe->checkout->sessions->create([
+                        'line_items' => $this->lineItems,
+                        'mode' => 'payment',
+                        'success_url' => route('checkout.success', [], true)."?session_id={CHECKOUT_SESSION_ID}",
+                        'cancel_url' => route('checkout.cancel', [], true)."?session_id={CHECKOUT_SESSION_ID}",
+                    ]);
+            
+                    $order = new Order();
+                    $order->status = 'unpaid';
+                    $order->total_price = $totalPrice;
+                    $order->session_id = $checkout_session->id;
+                    $order->user_id = $user->id;
+                    $order->save();
+
+                    return redirect($checkout_session->url);
                 }
             }
-            $checkout_session = $this->stripe->checkout->sessions->create([
-                'line_items' => $this->lineItems,
-                'mode' => 'payment',
-                'success_url' => route('checkout.success', [], true)."?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => route('checkout.cancel', [], true),
-              ]);
-    
-              $order = new Order();
-              $order->status = 'unpaid';
-              $order->total_price = $totalPrice;
-              $order->session_id = $checkout_session->id;
-              $order->user_id = $user->id;
-              $order->save();
-              return redirect($checkout_session->url);
+        } catch (AuthenticationException | ApiConnectionException | InvalidRequestException $e) {
+
+            return redirect()->back()->with('error', 'Sorry, we are unable to process your payment at the moment. Pleas try agian later');
+            
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'An expected error occured. Please try again later');
         }
+        
         
     }
 
@@ -120,9 +142,22 @@ class CartController extends Controller
 
     }
 
-    public function cancel()
+    public function cancel(Request $request)
     {
-
+        $user = Auth::user();
+        if(!$user){
+            throw new NotFoundHttpException();
+        }
+        try {
+            $order = $user->orders;
+            $sessionId = $request->session_id;
+            $order = $order->where('session_id', $sessionId)->first();
+            $order->delete();        
+        } catch (\Throwable $e) {
+            throw new NotFoundHttpException();
+        }
+      
+        return redirect()->route('cart');
     }
 
     public function webhook()
@@ -157,7 +192,6 @@ class CartController extends Controller
             $order->save();
             $user = Auth::user();
             $user->cart->cartItems;
-
             //send email to the customer
         }
     // ... handle other event types

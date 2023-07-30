@@ -147,7 +147,7 @@
           {{-- {{ dd(auth()->user()->cart->cartItems) }} --}}
           </a
         >
-        <a href="{{ route('cart') }}" class="nav-item nav-link"
+        <a href="{{ route('orders') }}" class="nav-item nav-link"
         >Orders
         @if (auth()->check())
           @php
