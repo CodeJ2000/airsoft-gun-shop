@@ -8,7 +8,6 @@
     <!-- BOOTSTRAP STYLES-->
     <link href="{{ url('admin-assets/css/bootstrap.css') }}" rel="stylesheet" />
     <!-- FONTAWESOME STYLES-->
-    <link href="{{ url('admin-assets/css/font-awesome.css') }}" rel="stylesheet" />
        <!--CUSTOM BASIC STYLES-->
     <link href="{{ url('css/admin-css/bootstrap-fileupload.min.css') }}" rel="stylesheet" />
 
@@ -16,7 +15,7 @@
     <!--CUSTOM MAIN STYLES-->
     <link href="{{ url('admin-assets/css/custom.css') }}" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div id="wrapper">
@@ -30,32 +29,11 @@
                 </button>
                 <a class="navbar-brand" href="{{ route('admin.dashboard') }}">Airsoft Zone</a>
             </div>
-{{-- 
-            <div class="header-right">
-
-                <a href="message-task.html" class="btn btn-info" title="New Message"><b>30 </b><i class="fa fa-envelope-o fa-2x"></i></a>
-                <a href="message-task.html" class="btn btn-primary" title="New Task"><b>40 </b><i class="fa fa-bars fa-2x"></i></a>
-                <a href="login.html" class="btn btn-danger" title="Logout">Lagout</a>
-
-            </div> --}}
         </nav>
         <!-- /. NAV TOP  -->
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-                    <li>
-                        <div class="user-img-div">
-                            <img src="assets/img/user.png" class="img-thumbnail" />
-
-                            <div class="inner-text">
-                                Jhon Deo Alex
-                            <br />
-                                <small>Last Login : 2 Weeks Ago </small>
-                            </div>
-                        </div>
-
-                    </li>
-
                     @php
                     $isActiveDashboard = request()->routeIs('admin.dashboard');
                     $isActiveProductManagement = request()->routeIs('manage.gun', 'gun.create', 'gun.edit', 'manage.accessories', 'accessory.create');
@@ -91,19 +69,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="table.html">Orders Management</a>
-                    </li>
-                    <li>
-                        <a href="table.html">Customers Management</a>
-                    </li>
-                    <li>
-                        <a href="table.html">Reports and Analytics</a>
-                    </li>
-                    <li>
-                        <a href="table.html">Settings</a>
-                    </li>
-                    <li>
-                        <a href="table.html">Lagout</a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a>
+                        <form action="{{ route('logout') }}" id="logout-form" method="POST">
+                        @csrf
+                        </form>
                     </li>
                 </ul>
             </div>

@@ -16,14 +16,17 @@ class Controller extends BaseController
 
     protected function shareNavigationData()
     {
+        // Retrieve gun categories from the 'gun_categories' table using the DB facade.
         $gunCategory = DB::table('gun_categories')
                             ->get();
+
+        // Retrieve accessory categories from the 'accessory_categories' table using the DB facade.
         $accessoryCategory = DB::table('accessory_categories')
                                 ->get();
-        
+        // Share retrieved categories with all views across the application.
         View::share([
-            'guns' => $gunCategory, 
-            'accessories' => $accessoryCategory, 
+            'guns' => $gunCategory, // Make gun categories available to views.
+            'accessories' => $accessoryCategory, // Make accessory categories available to views.
         ]);
     }
 }

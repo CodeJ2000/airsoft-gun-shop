@@ -20,7 +20,7 @@
                   </tr>
               </thead>
               <tbody>
-                {{-- @if($orders->count() > 0) --}}
+                @if($orders->count() > 0)
                   @foreach ($orders as $order)
                   @php
                     $address = $order->user->cart->shippingAddress;
@@ -29,26 +29,12 @@
                       <tr class="orderRow"  style="cursor: pointer;" data-order-id="{{ $order->id }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <td class="align-middle col-sm-1">{{ $order->id }}</td>
                           <td class="align-middle col-sm-5">{{ ucwords($shippingAddress) }}</td>
-                          <td class="align-middle col-sm-2">{{ $order->total_price }}</td>
-                          <td class="align-middle col-sm-2">{{ $order->created_at }}</td>
-                          <td class="align-middle col-sm-2">{{ $order->status }}</td>
-                          {{-- @php
-                            $image = $item->productable->images->first()->filename
-                          @endphp
-                          <td class="align-middle">
-                                <img src="storage/product_images/{{ $image }}"  width="200px" alt="">
-                            <div class="media-body">
-                              <h4 class="media-heading"><a href="">{{ $item->productable->name }}</a></h4>
-                            </div>
-                            </div>
-                          </td>
-                          <td class="align-middle">&#8369; {{ $item->price }}</td>
-                          <td class="align-middle col-sm-2">{{ $item->quantity }}</td>
-                          <td class="align-middle">&#8369; {{ $item->total_price }}</td>
-                          <td class="align-middle">&#8369; {{ $item->total_price }}</td> --}}
+                          <td class="align-middle col-sm-2">${{ $order->total_price }}</td>
+                          <td class="align-middle col-sm-2">{{ $order->formatted_created }}</td>
+                          <td class="align-middle col-sm-2">{{ ucwords($order->status) }}</td>
                       </tr>        
                   @endforeach
-                {{-- @endif --}}
+                @endif
               </tbody>
           </table>
         </div>

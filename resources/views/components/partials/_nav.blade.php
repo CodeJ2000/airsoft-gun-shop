@@ -87,6 +87,7 @@ class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm py-3 py-lg-0 px-3 p
     <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
     @endguest
     @auth
+    @if (auth()->user()->isCustomer())
     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-item nav-link">Logout</a>
     <form action="{{ route('logout') }}" id="logout-form" method="POST">
       @csrf
@@ -99,22 +100,20 @@ class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm py-3 py-lg-0 px-3 p
       @endphp
       <sup class="text-danger">{{ $items->count() }}</sup>
     @endif
-    {{-- {{ dd(auth()->user()->cart->cartItems) }} --}}
     </a
   >
   <a href="{{ route('orders') }}" class="nav-item nav-link"
   >Orders
   @if (auth()->check())
     @php
-      $items = auth()->user()->cart->cartItems()->whereNotNull('order_id')->get();
+      $items = auth()->user()->orders;
     @endphp
     <sup class="text-danger">{{ $items->count() }}</sup>
   @endif
-  {{-- {{ dd(auth()->user()->cart->cartItems) }} --}}
   </a
->
+>  
+    @endif
     @endauth
-
   </div>
 </div>
 </nav>

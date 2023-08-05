@@ -14,9 +14,12 @@ class CategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        // Retrieve paginated lists of gun and accessory categories
         $gun_categories = GunCategory::paginate(5);
         $accessory_categories = AccessoryCategory::paginate(5);
+
+        // Return the view with the categories data
         return view('admin.manage-categories', compact('gun_categories', 'accessory_categories'));
     }
 
@@ -26,20 +29,37 @@ class CategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function createGun()
-    {   $routeName = "manageGun.categories.store";
+    {
+        // Configuration for creating a gun category
+        $routeName = "manageGun.categories.store";
         $gunHeader = "Add a category for guns";
         $mainHeader = "Manage Category";
         $redirectTo = "manage.categories";
-        return view('admin.manage-categories-brands-form', ['subHeader' => $gunHeader, 'routeName' => $routeName , 'header' => $mainHeader, 'redirectTo' => $redirectTo]);
+
+        // Return the view with configuration data
+        return view('admin.manage-categories-brands-form', [
+            'subHeader' => $gunHeader,
+            'routeName' => $routeName,
+            'header' => $mainHeader,
+            'redirectTo' => $redirectTo
+        ]);
     }
 
     public function createAccessory()
     {
+         // Configuration for creating an accessory category
         $routeName = "manageAccessory.categories.store";
         $accessoryHeader = "Add a category for Accessories";
         $mainHeader = "Manage Category";
         $redirectTo = "manage.categories";
-        return view('admin.manage-categories-brands-form', ['subHeader' => $accessoryHeader, 'routeName' => $routeName, 'header' => $mainHeader, 'redirectTo' => $redirectTo]);
+
+        // Return the view with configuration data
+        return view('admin.manage-categories-brands-form', [
+            'subHeader' => $accessoryHeader,
+            'routeName' => $routeName,
+            'header' => $mainHeader, 
+            'redirectTo' => $redirectTo
+        ]);
     }
 
     /**
@@ -50,13 +70,17 @@ class CategoriesController extends Controller
      */
     public function storeGun(Request $request)
     {
+        // Validate the request data
         $validated = $request->validate([
             'name' => "required|max:30"
         ]);
 
+        // Create and save a new gun category
         $gunCategory = new GunCategory();
         $gunCategory->name = $validated['name'];
         $gunCategory->save();
+
+        // Redirect with success message
         return redirect()->route('manage.categories')->with('success', 'Gun category is successfully added');
     }
 
@@ -128,12 +152,17 @@ class CategoriesController extends Controller
 
     public function updateAccessory(Request $request, $id)
     {
+         // Validate the incoming request data
         $validated = $request->validate([
             'name' => 'required|max:40'
         ]);
+
+         // Create a new accessory category instance
         $accessoryCategory = AccessoryCategory::find($id);
         $accessoryCategory->name = $validated['name'];
         $accessoryCategory->save();
+
+         // Redirect with a success message
         return redirect()->route('manage.categories')->with('success', 'Successfully Updated');
         
     }
@@ -145,19 +174,31 @@ class CategoriesController extends Controller
      */
     public function destroyGun($id)
     {
+        // Find the gun category by its ID using the GunCategory model
         $gunCategory = GunCategory::find($id);
+        
+        // Check if the gun category exists
         if($gunCategory){
+            // If the category exists, delete it
             $gunCategory->delete();
         }
+
+        // Redirect the user to the 'manage.categories' route with a success message
         return redirect()->route('manage.categories')->with('success', "Successfully deleted!");
     }
 
     public function destroyAccessory($id)
     {
+        // Find the accessory category by its ID using the AccessoryCategory model
         $accessoryCategory = AccessoryCategory::find($id);
+
+        // Check if the accessory category exists
         if($accessoryCategory){
+            // If the category exists, delete it
             $accessoryCategory->delete();
         }
+
+        // Redirect the user to the 'manage.categories' route with a success message
         return redirect()->route('manage.categories')->with('success', 'Successfully deleted!');
     }
 }

@@ -26,29 +26,46 @@ use App\Http\Controllers\ShippingAddressController;
 Route::get('/', [HomeController::class, 'index'])->name('main');
 
 //Here is where the admin dashboard render.
-Route::get('admin', [AdminController::class, 'index'])->name('admin.dashboard');
 
 Route::get('customerLogin', [AuthController::class, 'index'])->name('login');
 Route::get('customerSignUp', [AuthController::class, 'signup_view'])->name('signup.view');
 Route::post('customerSignUp', [AuthController::class, 'signup'])->name('signup');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('authenticate', [AuthController::class, 'authenticate'])->name('login.auth');
 
-Route::get('customerCart', [CartController::class, 'index'])->name('cart')->middleware('role:customer');
-Route::post('addToCart', [CartItemController::class, 'store'])->name('cart.store');
-Route::delete('cartItem/delete/{id}', [CartItemController::class, 'destroy'])->name('cartItem.destroy');
+Route::middleware(['auth'])->group(function(){
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::prefix('customer')->middleware('isCustomer')->group(function(){
+
+        Route::get('customerCart', [CartController::class, 'index'])->name('cart');
+        Route::post('addToCart', [CartItemController::class, 'store'])->name('cart.store');
+        Route::delete('cartItem/delete/{id}', [CartItemController::class, 'destroy'])->name('cartItem.destroy');
+
+        Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+        Route::get('/success', [CartController::class, 'success'])->name('checkout.success');
+        Route::get('/cancel', [CartController::class, 'cancel'])->name('checkout.cancel');
+        Route::post('/webhook', [CartController::class, 'webhook'])->name('checkout.webhook');
 
 
-Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::get('/success', [CartController::class, 'success'])->name('checkout.success');
-Route::get('/cancel', [CartController::class, 'cancel'])->name('checkout.cancel');
-Route::post('/webhook', [CartController::class, 'webhook'])->name('checkout.webhook');
 
+        Route::get('shippingAddress', [ShippingAddressController::class, 'create'])->name('address.index');
+        Route::post('shippingAddress', [ShippingAddressController::class, 'addOrUpdateAddress'])->name('address.store');
+    });
+});
 
+//Here is where the single gun show
+Route::get('showgun/{id}', [ProductController::class,'showGun'])->name('singleGun.show');
+//Here is where the single accessory show
+Route::get('showaccessory/{id}', [ProductController::class, 'showAccessory'])->name('singleAccessory.show');
+//Here is where the list of gun show in cards
+Route::get('listGuns/{id}', [ProductController::class, 'indexGun'])->name('gun.showAll');
+//Here is where the list of accessory show in cards
+Route::get('listAccessories/{id}', [ProductController::class, 'indexAccessory'])->name('accessory.showAll');
+// order-list
+Route::get('orders', [OrderController::class, 'index'])->name('orders');
+Route::get('/order{orderId}/products/', [OrderController::class, 'getOrderProducts'])->name('order.products');
 
-Route::get('shippingAddress', [ShippingAddressController::class, 'create'])->name('address.index');
-Route::post('shippingAddress', [ShippingAddressController::class, 'addOrUpdateAddress'])->name('address.store');
-Route::group(['prefix' => 'admin'] , function(){
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function(){
+    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('manageGun', [ProductController::class, 'indexGunAdmin'])->name('manage.gun');
     Route::get('addGunProduct', [ProductController::class, 'createGun'])->name('gun.create');
     Route::post('addGunProduct', [ProductController::class, 'storeGun'])->name('gun.store');
@@ -85,19 +102,3 @@ Route::group(['prefix' => 'admin'] , function(){
     Route::post('updatebrands-form/{id}', [BrandsController::class, 'update'])->name('brand.update');
     Route::delete('deletebrand/{id}', [BrandsController::class, 'destroy'])->name('brand.destroy');
 });
-
-
-
-//Here is where the single gun show
-Route::get('showgun/{id}', [ProductController::class,'showGun'])->name('singleGun.show');
-//Here is where the single accessory show
-Route::get('showaccessory/{id}', [ProductController::class, 'showAccessory'])->name('singleAccessory.show');
-//Here is where the list of gun show in cards
-Route::get('listGuns/{id}', [ProductController::class, 'indexGun'])->name('gun.showAll');
-//Here is where the list of accessory show in cards
-Route::get('listAccessories/{id}', [ProductController::class, 'indexAccessory'])->name('accessory.showAll');
-
-// order-list
-Route::get('orders', [OrderController::class, 'index'])->name('orders');
-
-Route::get('/order{orderId}/products/', [OrderController::class, 'getOrderProducts'])->name('order.products');

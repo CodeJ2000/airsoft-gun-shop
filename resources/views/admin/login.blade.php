@@ -25,30 +25,21 @@
                 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
                            
                             <div class="panel-body">
-                                <form role="form">
+                                <form role="form" action="{{ route('login.auth') }}" method="POST">
+                                    @csrf
                                     <hr />
                                     <h5>Enter Details to Login</h5>
                                        <br />
                                      <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="Your Username " />
+                                            <input type="text" name="email" class="form-control" placeholder="Your Username " />
                                         </div>
                                                                               <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
-                                            <input type="password" class="form-control"  placeholder="Your Password" />
+                                            <input type="password" name="password" class="form-control"  placeholder="Your Password" />
                                         </div>
-                                    <div class="form-group">
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" /> Remember me
-                                            </label>
-                                            <span class="pull-right">
-                                                   <a href="index.html" >Forget password ? </a> 
-                                            </span>
-                                        </div>
+                                     <button type="submit" class="btn btn-primary ">Login Now</button>
                                      
-                                     <a href="index.html" class="btn btn-primary ">Login Now</a>
-                                    <hr />
-                                    Not register ? <a href="index.html" >click here </a> or go to <a href="index.html">Home</a> 
                                     </form>
                             </div>
                            

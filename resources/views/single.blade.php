@@ -58,7 +58,7 @@
         {{ $singleProduct->description }}
       </p>
     </div>
-    <div class="col-lg-3"><h1>Payment section</h1></div>
+    {{-- <div class="col-lg-3"><h1>Payment section</h1></div> --}}
   </div>
   <!-- Single product end -->
   @push('scripts')

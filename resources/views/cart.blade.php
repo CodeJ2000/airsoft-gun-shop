@@ -36,10 +36,10 @@
                   @foreach ($cartItems as $cartItem)
                   <tr>
                     @php
-                      $image = $cartItem->productable->images->first()->filename
+                      $image = $cartItem->productable->images->first()->filename;
                     @endphp
                     <td class="align-middle">
-                          <img src="storage/product_images/{{ $image }}"  width="200px" alt="">
+                          <img src="../storage/product_images/{{ $image }}"  width="200px" alt="">
                       <div class="media-body">
                         <h4 class="media-heading"><a href="">{{ $cartItem->productable->name }}</a></h4>
                         <span>Status:</span>

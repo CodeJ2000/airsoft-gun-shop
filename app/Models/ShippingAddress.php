@@ -9,6 +9,7 @@ class ShippingAddress extends Model
 {
     use HasFactory;
 
+    // Define the fillable attributes of the model, which can be mass-assigned
     protected $fillable = [
         'street',
         'barangay',
@@ -17,8 +18,11 @@ class ShippingAddress extends Model
         'province'
     ];
 
+    // Define a many-to-one relationship with the Cart model
     public function cart()
     {
+        // This method establishes a many-to-one relationship
+        // ShippingAddress belongs to a Cart
         return $this->belongsTo(Cart::class);
     }
 }

@@ -3,10 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckRole
+class CustomerRole
 {
     /**
      * Handle an incoming request.
@@ -18,14 +19,14 @@ class CheckRole
     public function handle(Request $request, Closure $next)
     {
         if(Auth::check()){
-            if(Auth::user()->user === 'admin'){
+            if(Auth::user()->user === 'customer'){
                 return $next($request);
             } else {
-                return redirect()->route('main');
+                throw new  AuthorizationException();
             }
 
         } else {
-            return redirect()->route('login')->with('error', 'Login to access to the website!');
+            return redirect()->route('main')->with('errors', 'You are not login');
         }
     }
 }
