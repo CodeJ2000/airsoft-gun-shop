@@ -1,6 +1,5 @@
-@include('partials.header')
-    <!-- Navbar End -->
-
+<x-base-layout>
+  
     <!-- Hero Start -->
     <div class="container-fluid bg-primary py-5 mb-5 hero-header">
       <div class="container py-5">
@@ -38,6 +37,7 @@
               <div class="mb-2">
                 Don't have an account?
                 <a href="{{ route('signup.view') }}">Signup</a>
+
               </div>
               <input
                 type="submit"
@@ -54,4 +54,4 @@
     </div>
     <!-- Hero End -->
 
-@include('partials.footer')
+</x-base-layout>

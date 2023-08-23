@@ -44,7 +44,7 @@
                                          <tr>
                                             <td>{{ $counter }}</td>
                                             <td>{{ ucwords($product->name) }}</td>
-                                            <td>{{ $product->price }}</td>
+                                              <td>{{ $product->price }}</td>
                                             <td>{{ ucwords($product->description) }}</td>
                                             <td>{{ ucwords($product->brand->name) }}</td>
                                             <td>{{ ucwords($product->category->name) }}</td>

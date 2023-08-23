@@ -39,6 +39,10 @@
                                                      <input class="form-control" value="{{ old('price', isset($product) ? $product->price : '') }}" name="price" type="text">
                                                  </div>
                                                  <div class="form-group">
+                                                    <label for="name">Stock:</label>
+                                                     <input class="form-control" value="{{ old('stock', isset($product) ? $product->stock : '') }}" name="stock" type="number" min="1">
+                                                 </div>
+                                                 <div class="form-group">
                                                     <label>Description:</label>
                                                     <textarea name="description" class="form-control" rows="3">{{ old('description', isset($product) ? $product->description : '') }}</textarea>
                                                 </div>
