@@ -12,7 +12,7 @@ The Airsoft Gun Shop Website is a web development project created with the goal 
 
 ## Screenshots
 
-![App Screenshot](img/airsoft-website.png)
+![App Screenshot](img/airsoft-websilte.png)
 
 
 ## Get started!
